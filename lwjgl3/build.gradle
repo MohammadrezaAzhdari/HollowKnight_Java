@@ -1,9 +1,7 @@
 
 buildscript {
   repositories {
-    maven {
-      url 'https://maven.myket.ir'
-    }
+    gradlePluginPortal()
   }
   dependencies {
     classpath "io.github.fourlastor:construo:2.1.0"
