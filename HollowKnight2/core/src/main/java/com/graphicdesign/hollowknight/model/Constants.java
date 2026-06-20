@@ -9,4 +9,12 @@ public class Constants {
     public static final float MAX_RUN = 20;
     public static final float GRAVITY = 50;
     public static final float PLAYER_RADIUS = 90;
+    public static final float FONT_SCALE = 1.5f;
+    public static final float SENSOR_LINE_LENGTH = 20;
+    public static final short KNIGHT_BIT = 2;
+    public static final short GROUND_BIT = 1;
+    public static final short DESTROYED_BIT = 8;
+    public static final short BLOCK_BIT = 4;
+    public static final short ENEMY_BIT = 16;
+    public static final short OBJECT_BIT = 32;
 }

@@ -1,11 +1,10 @@
 package com.graphicdesign.hollowknight.view.screen;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -14,16 +13,15 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.graphicdesign.hollowknight.HollowKnight;
-import com.graphicdesign.hollowknight.model.AssetManager;
-import com.graphicdesign.hollowknight.model.B2WorldCreator;
-import com.graphicdesign.hollowknight.model.Constants;
-import com.graphicdesign.hollowknight.model.Knight;
+import com.graphicdesign.hollowknight.model.*;
+import com.graphicdesign.hollowknight.model.enemy.FalseKnight;
 import com.graphicdesign.hollowknight.model.enums.animation.KnightAnimation;
 import com.graphicdesign.hollowknight.model.scenes.Hud;
 
 public class GameScreen implements Screen {
     private HollowKnight game;
     private TextureAtlas atlas;
+    private Music music;
 
     private OrthographicCamera gamecam;
     private Viewport gamePort;
@@ -34,6 +32,7 @@ public class GameScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
     private Knight player;
+    private FalseKnight falseKnight;
 
 
     public GameScreen(HollowKnight game) {
@@ -50,10 +49,14 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0,-Constants.GRAVITY), true);
         b2dr = new Box2DDebugRenderer();
         player = new Knight(world);
+        falseKnight = new FalseKnight(this, 128, 1000);
 
-        new B2WorldCreator(world, map);
+        new B2WorldCreator(this);
 
         world.setContactListener(new WorldContactListener());
+        music = HollowKnight.manager.get("audio/music/hollowknight.ogg", Music.class);
+        music.setLooping(true);
+        music.play();
     }
 
     public void handleInput(float deltaTime) {
@@ -61,12 +64,12 @@ public class GameScreen implements Screen {
             player.b2body.applyLinearImpulse(new Vector2(0, Constants.JUMP), player.b2body.getWorldCenter(), true);
             player.animation = KnightAnimation.DOUBLE_JUMP;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x <= Constants.MAX_RUN) {
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -Constants.MAX_RUN) {
             player.b2body.applyLinearImpulse(new Vector2(-Constants.RUN, 0), player.b2body.getWorldCenter(), true);
             player.animation = KnightAnimation.RUN;
             // TODO : You can change it to apply force!
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x >= -Constants.MAX_RUN) {
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= Constants.MAX_RUN) {
             player.b2body.applyLinearImpulse(new Vector2(Constants.RUN, 0), player.b2body.getWorldCenter(), true);
             player.animation = KnightAnimation.RUN;
             // TODO : You can change it to apply force!
@@ -78,9 +81,11 @@ public class GameScreen implements Screen {
     }
 
     public void update(float deltaTime) {
+        hud.update(deltaTime);
         handleInput(deltaTime);
         world.step(1/60f, Constants.VELOCITY_ITERATION, Constants.POSITION_ITERATION); // TODO : You can change these later on.
         gamecam.position.x = player.b2body.getPosition().x;
+        gamecam.position.y = player.b2body.getPosition().y;
         gamecam.update();
         renderer.setView(gamecam);
     }
@@ -94,7 +99,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
 
         update(delta);
-        Gdx.gl.glClearColor(0, 0, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
@@ -104,7 +109,8 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
 
-        player.draw(game.batch); // <-- Clean, just like your friend's!
+        player.draw(game.batch);
+
 
         game.batch.end();
 
@@ -115,6 +121,9 @@ public class GameScreen implements Screen {
         player.stateTime += delta;
 
     }
+
+    public TiledMap getMap(){return map;}
+    public World getWorld(){return world;}
 
     @Override
     public void resize(int width, int height) {

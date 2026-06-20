@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.graphicdesign.hollowknight.HollowKnight;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.graphicdesign.hollowknight.model.Constants;
 
 public class Hud implements Disposable {
     public Stage stage;
@@ -20,10 +21,10 @@ public class Hud implements Disposable {
 
     private Integer worldTimer;
     private Float timeCount;
-    private Integer score;
+    private static Integer score;
 
     Label countDownLabel;
-    Label scoreLabel;
+    static Label scoreLabel;
     Label timeLabel;
     Label levelLabel;
     Label worldLabel;
@@ -41,7 +42,7 @@ public class Hud implements Disposable {
         table.setFillParent(true);
 
         BitmapFont font = new BitmapFont();
-        font.getData().setScale(15f);
+        font.getData().setScale(Constants.FONT_SCALE);
 
         countDownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle( font, Color.WHITE));
         scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle( font, Color.WHITE));
@@ -64,6 +65,20 @@ public class Hud implements Disposable {
     @Override
     public void dispose() {
         stage.dispose();
+
+    }
+
+    public void update(float deltaTime) {
+        timeCount += deltaTime;
+        if(timeCount >= 1) {
+            worldTimer --;
+            countDownLabel.setText(String.format("%03d", worldTimer));
+            timeCount = 0f;
+        }
+    }
+    public static void addScore(int value) {
+        score += value;
+        scoreLabel.setText(String.format("%06d", score));
 
     }
 }

@@ -1,9 +1,9 @@
 package com.graphicdesign.hollowknight.model;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.graphicdesign.hollowknight.model.enums.animation.KnightAnimation;
 
@@ -27,12 +27,25 @@ public class Knight {
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(Constants.PLAYER_RADIUS / Constants.PPM);
+
+        fdef.filter.categoryBits = Constants.KNIGHT_BIT;
+        fdef.filter.maskBits = Constants.GROUND_BIT | Constants.BLOCK_BIT;
         fdef.shape = shape;
         b2body.createFixture(fdef);
+
+
+        // Creating sensor :
+
+        EdgeShape leg = new EdgeShape();
+        leg.set(new Vector2(-Constants.SENSOR_LINE_LENGTH / Constants.PPM, -Constants.PLAYER_RADIUS / Constants.PPM), new Vector2(Constants.SENSOR_LINE_LENGTH / Constants.PPM, -Constants.PLAYER_RADIUS / Constants.PPM));
+        fdef.shape = leg;
+        fdef.isSensor = true;
+
+        b2body.createFixture(fdef).setUserData("leg");
     }
     public void draw(SpriteBatch batch) {
         // 1. Get the current frame
-        Animation<TextureRegion> animation = AssetManager.getInstance().animationMap.get(this.animation);
+        Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(this.animation);
         TextureRegion keyFrame = animation.getKeyFrame(this.stateTime, true);
 
         // 2. Calculate scaled width/height

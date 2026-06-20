@@ -11,22 +11,22 @@ import com.graphicdesign.hollowknight.model.enums.animation.KnightAnimation;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AssetManager {
-    private static AssetManager instance;
+public class AssetManagerLocal {
+    private static AssetManagerLocal instance;
     private final Map<String, String> assetMap = new HashMap<>();
     public final HashMap<KnightAnimation, Animation<TextureRegion>> animationMap = new HashMap<>();
 
 
-    private AssetManager() {
+    private AssetManagerLocal() {
         scanAsset("asset");
         for (KnightAnimation type : KnightAnimation.values()) {
             loadAnimation(type);
         }
     }
 
-    public static AssetManager getInstance() {
+    public static AssetManagerLocal getInstance() {
         if(instance == null) {
-            return new AssetManager();
+            return instance = new AssetManagerLocal();
         }
         return instance;
     }
