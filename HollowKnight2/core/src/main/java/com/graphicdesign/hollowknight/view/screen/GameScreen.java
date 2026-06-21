@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
         map = mapLoader.load("map/level2/level2.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         gamecam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
-        world = new World(new Vector2(0,-Constants.GRAVITY), true);
+        world = new World(new Vector2(0,-Constants. GRAVITY), true);
         b2dr = new Box2DDebugRenderer();
         player = new Knight(world);
         falseKnight = new FalseKnight(this, 128, 1000);
@@ -61,8 +61,6 @@ public class GameScreen implements Screen {
 
     public void handleInput(float deltaTime) {
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            player.b2body.applyLinearImpulse(new Vector2(0, Constants.JUMP), player.b2body.getWorldCenter(), true);
-            player.animation = KnightAnimation.DOUBLE_JUMP;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -Constants.MAX_RUN) {
             player.b2body.applyLinearImpulse(new Vector2(-Constants.RUN, 0), player.b2body.getWorldCenter(), true);

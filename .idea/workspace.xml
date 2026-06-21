@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a7b6a959-089a-4d63-98d2-d2e78401a393" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HollowKnight2/lwjgl3/src/main/java/com/graphicdesign/hollowknight/lwjgl3/Lwjgl3Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/HollowKnight2/lwjgl3/src/main/java/com/graphicdesign/hollowknight/lwjgl3/Lwjgl3Launcher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HollowKnight_GHM/core/src/main/java/com/graphicdesign/hollowknight/HollowKnight.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HollowKnight_GHM/core/src/main/java/com/graphicdesign/hollowknight/controller/PlayScreenController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HollowKnight_GHM/core/src/main/java/com/graphicdesign/hollowknight/model/Constants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HollowKnight_GHM/core/src/main/java/com/graphicdesign/hollowknight/model/Hud.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HollowKnight_GHM/core/src/main/java/com/graphicdesign/hollowknight/model/enums/KnightAnimation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HollowKnight_GHM/core/src/main/java/com/graphicdesign/hollowknight/view/PlayScreenView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HollowKnight_GHM/core/src/main/java/com/graphicdesign/hollowknight/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HollowKnight_GHM/lwjgl3/src/main/java/com/graphicdesign/hollowknight/lwjgl3/Lwjgl3Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/HollowKnight_GHM/lwjgl3/src/main/java/com/graphicdesign/hollowknight/lwjgl3/Lwjgl3Launcher.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
