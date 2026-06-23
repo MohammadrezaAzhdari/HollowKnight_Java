@@ -22,8 +22,13 @@ public class PlayScreenController extends InputAdapter {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.UP:
-                knight.b2body.applyLinearImpulse(new Vector2(0, Constants.JUMP), knight.b2body.getWorldCenter(), true);
-                knight.animation = KnightAnimation.DOUBLE_JUMP;
+                if (knight.jumpCount < 2) {
+                    if (knight.jumpCount == 1) {
+                        knight.b2body.setLinearVelocity(knight.b2body.getLinearVelocity().x, 0);
+                    }
+                    knight.b2body.applyLinearImpulse(new Vector2(0, Constants.JUMP), knight.b2body.getWorldCenter(), true);
+                    knight.jumpCount++;
+                }
                 return true;
             case Input.Keys.LEFT:
                 leftPressed = true;
@@ -61,11 +66,9 @@ public class PlayScreenController extends InputAdapter {
 
         if (leftPressed && velocity.x >= -Constants.MAX_RUN) {
             knight.b2body.applyLinearImpulse(new Vector2(-Constants.RUN, 0), knight.b2body.getWorldCenter(), true);
-            knight.animation = KnightAnimation.RUN;
         }
         if (rightPressed && velocity.x <= Constants.MAX_RUN) {
             knight.b2body.applyLinearImpulse(new Vector2(Constants.RUN, 0), knight.b2body.getWorldCenter(), true);
-            knight.animation = KnightAnimation.RUN;
         }
         if (velocity.x == 0 && velocity.y == 0) {
             knight.animation = KnightAnimation.IDLE;

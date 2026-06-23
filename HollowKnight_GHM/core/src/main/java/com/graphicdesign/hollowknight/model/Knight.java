@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.graphicdesign.hollowknight.model.enums.KnightAnimation;
+import com.graphicdesign.hollowknight.model.enums.KnightState;
 
 public class Knight {
     private World world;
@@ -13,6 +14,9 @@ public class Knight {
     public KnightAnimation animation = KnightAnimation.IDLE; // TODO : Change it to landing
     public float stateTime = 0f;
     private boolean runningRight = true;
+    public int jumpCount = 0;
+    public KnightState currentState;
+    public KnightState previousState;
 
     public Knight (World world, Vector2 spawn) {
         this.world = world;
@@ -41,23 +45,19 @@ public class Knight {
         shape.dispose();
     }
     public void draw(SpriteBatch batch) {
-        // 1. Get the current frame
         Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(this.animation);
         TextureRegion keyFrame = animation.getKeyFrame(this.stateTime, true);
 
         correctKnightDirection(keyFrame);
-        // 2. Calculate scaled width/height
         float width = keyFrame.getRegionWidth() / Constants.PPM;
         float height = keyFrame.getRegionHeight() / Constants.PPM;
 
         float padX = -0.1f;
         float padY = 0.65f;
 
-        // 3. Calculate X and Y from Box2D body
         float x = this.b2body.getPosition().x - (width / 2f) + padX;
         float y = this.b2body.getPosition().y - (height / 2f) + padY;
 
-        // 4. Draw it
         batch.draw(keyFrame, x, y, width, height);
     }
 
@@ -75,6 +75,91 @@ public class Knight {
         }
         else if (!runningRight && keyFrame.isFlipX()) {
             keyFrame.flip(true, false);
+        }
+    }
+
+    public void update(float deltaTime) {
+        currentState = getState();
+
+        if(currentState != previousState) {
+            stateTime = 0;
+        }
+        else {
+            stateTime += deltaTime;
+        }
+
+        switch (currentState) {
+            case IDLE :
+            {
+                animation = KnightAnimation.IDLE;
+                break;
+            }
+            case FALLING:
+            {
+                animation = KnightAnimation.FALL;
+                break;
+            }
+            case RUNNING:
+            {
+                animation = KnightAnimation.RUN;
+                break;
+            }
+            case RUN_TO_IDLE:
+            {
+                animation = KnightAnimation.RUN_TO_IDLE;
+                break;
+            }
+            case LANDING:
+            {
+                System.out.println("1_");
+                animation = KnightAnimation.LANDING;
+                break;
+            }
+            case JUMPING:
+            {
+                animation = KnightAnimation.DOUBLE_JUMP;
+                break;
+            }
+            case DOUBLE_JUMPING:
+            {
+                animation = KnightAnimation.DOUBLE_JUMP;
+            }
+        }
+        previousState = currentState;
+    }
+
+    private KnightState getState() {
+        Vector2 velocity = b2body.getLinearVelocity();
+        Animation<TextureRegion> currentAnimation = AssetManagerLocal.getInstance().animationMap.get(animation);
+
+        if(currentState == KnightState.LANDING) {
+            if(!currentAnimation.isAnimationFinished(stateTime)) return KnightState.LANDING;
+        }
+        if(currentState == KnightState.RUN_TO_IDLE) {
+            if (velocity.x != 0) return KnightState.RUNNING;
+            if (velocity.y > 0) return (jumpCount == 2) ? KnightState.DOUBLE_JUMPING : KnightState.JUMPING;
+
+            if (!currentAnimation.isAnimationFinished(stateTime)) return KnightState.RUN_TO_IDLE;
+        }
+        if (velocity.y > 0) {
+            return (jumpCount == 2) ? KnightState.DOUBLE_JUMPING : KnightState.JUMPING;
+        } else if (velocity.y < 0) {
+            return KnightState.FALLING;
+        }
+
+        if (velocity.x != 0 && previousState != KnightState.LANDING) {
+            return KnightState.RUNNING;
+        } else {
+            if (previousState == KnightState.FALLING) {
+                jumpCount = 0;
+                return KnightState.LANDING;
+            }
+            if (previousState == KnightState.RUNNING) {
+                return KnightState.RUN_TO_IDLE;
+            }
+
+            jumpCount = 0;
+            return KnightState.IDLE;
         }
     }
 }

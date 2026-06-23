@@ -18,7 +18,7 @@ public class AssetManagerLocal {
 
 
     private AssetManagerLocal() {
-        scanAsset("asset");
+        scanAsset(".");
         for (KnightAnimation type : KnightAnimation.values()) {
             loadAnimation(type);
         }
@@ -51,8 +51,17 @@ public class AssetManagerLocal {
             frames[i] = split[row][col];
         }
 
-        Animation<TextureRegion> animation = new Animation<>(1/30f, frames);
-        animation.setPlayMode(Animation.PlayMode.LOOP);
+        Animation<TextureRegion> animation = new Animation<>(Constants.FRAME_DURATION, frames);
+
+        if(type == KnightAnimation.DEATH ||
+            type == KnightAnimation.LANDING ||
+            type == KnightAnimation.RUN_TO_IDLE ||
+            type == KnightAnimation.DOUBLE_JUMP) {
+            animation.setPlayMode(Animation.PlayMode.NORMAL);
+        }
+        else{
+            animation.setPlayMode(Animation.PlayMode.LOOP);
+        }
 
         animationMap.put(type, animation);
     }
@@ -82,6 +91,6 @@ public class AssetManagerLocal {
     }
 
     public Skin getSkin() {
-        return new Skin(Gdx.files.internal(""));
+        return new Skin(Gdx.files.internal("skin/20MinTillDawn.json"));
     }
 }

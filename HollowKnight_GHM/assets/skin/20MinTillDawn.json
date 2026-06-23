@@ -1,0 +1,384 @@
+{
+"com.badlogic.gdx.graphics.g2d.BitmapFont": {
+	"ChvyExprs_WHITE_16": {
+		"file": "ChevyRay - Express(3).fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"ChvyExprs_WHITE_24": {
+		"file": "ChevyRay - Express.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"ChvyExprs_WHITE_24_boarder": {
+		"file": "ChevyRay - Express(7).fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"ChvyExprs_WHITE_36": {
+		"file": "ChevyRay - Express(1).fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"ChvyExprs_WHITE_54": {
+		"file": "ChevyRay - Express(2).fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"ChvyExprs_WHITE_85": {
+		"file": "ChevyRay - Express(4).fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	},
+	"OpSa_WHITE_16": {
+		"file": "OpenSans.fnt",
+		"scaledSize": -1,
+		"markupEnabled": false,
+		"flip": false
+	}
+},
+"com.badlogic.gdx.graphics.Color": {
+	"BLACK": {
+		"r": 0,
+		"g": 0,
+		"b": 0,
+		"a": 1
+	},
+	"GREEN": {
+		"r": 0.23529412,
+		"g": 0.30588236,
+		"b": 0.30588236,
+		"a": 1
+	},
+	"KEREM": {
+		"r": 1,
+		"g": 0.8627451,
+		"b": 0.7764706,
+		"a": 1
+	},
+	"PINK": {
+		"r": 1,
+		"g": 0.49803922,
+		"b": 0.57254905,
+		"a": 1
+	},
+	"RED": {
+		"r": 1,
+		"g": 0,
+		"b": 0,
+		"a": 1
+	},
+	"WHITE": {
+		"r": 1,
+		"g": 1,
+		"b": 1,
+		"a": 1
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+	"default": {
+		"up": "button"
+	},
+	"exit1": {
+		"up": "exitButton",
+		"down": "exitButton_DOWN",
+		"over": "exitButton_OVER"
+	},
+	"exit2": {
+		"up": "exitButton2",
+		"down": "exitButton2_DOWN",
+		"over": "exitButton2_OVER"
+	},
+	"check": {
+		"up": "checkButtonPass",
+		"checked": "checkButtonFail"
+	},
+	"ok": {
+		"up": "okButton",
+		"over": "okButton_OVER"
+	},
+	"cancel": {
+		"up": "cancelButton",
+		"over": "cancelButton_OVER"
+	},
+	"right": {
+		"up": "rightButton",
+		"down": "rightButton_DOWN"
+	},
+	"left": {
+		"up": "leftButton",
+		"down": "leftButton_DOWN"
+	},
+	"hidden": {
+		"up": "empty",
+		"over": "Over"
+	},
+	"start": {
+		"up": "start",
+		"down": "start_DOWN",
+		"over": "start_OVER"
+	},
+	"tick": {
+		"up": "tickButton_medium"
+	},
+	"back": {
+		"up": "BackButton_UP",
+		"down": "BackButton_DOWN"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
+	"default": {
+		"checkboxOn": "checkBox_ON1",
+		"checkboxOff": "checkBox_OFF",
+		"font": "ChvyExprs_WHITE_24",
+		"fontColor": "PINK",
+		"overFontColor": "GREEN"
+	},
+	"chvy_PINK_16": {
+		"checkboxOn": "checkBox_ON1",
+		"checkboxOff": "checkBox_OFF",
+		"font": "ChvyExprs_WHITE_16",
+		"fontColor": "PINK",
+		"overFontColor": "GREEN"
+	},
+	"on-off": {
+		"checkboxOn": "checkBox2_ON",
+		"checkboxOff": "checkBox2_OFF",
+		"font": "ChvyExprs_WHITE_24"
+	},
+	"on-off2": {
+		"checkboxOn": "checkBox2_ON2",
+		"checkboxOff": "checkBox2_OFF",
+		"font": "ChvyExprs_WHITE_24"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+	"default": {
+		"font": "ChvyExprs_WHITE_24"
+	},
+	"chvyExprs_PINK_24": {
+		"font": "ChvyExprs_WHITE_24",
+		"fontColor": "PINK"
+	},
+	"chvyExprs_GREEN_24": {
+		"font": "ChvyExprs_WHITE_24",
+		"fontColor": "GREEN"
+	},
+	"chvyExprs_RED_36": {
+		"font": "ChvyExprs_WHITE_36",
+		"fontColor": "RED"
+	},
+	"chvyExprs_RED_54": {
+		"font": "ChvyExprs_WHITE_54",
+		"fontColor": "RED"
+	},
+	"chvyExprs_PINK_85": {
+		"font": "ChvyExprs_WHITE_85",
+		"fontColor": "PINK"
+	},
+	"chvyExprs_RED_85": {
+		"font": "ChvyExprs_WHITE_85",
+		"fontColor": "RED"
+	},
+	"war_chvy_WHITE_24": {
+		"font": "ChvyExprs_WHITE_24",
+		"fontColor": "WHITE",
+		"background": "warningLabel"
+	},
+	"chvyExprs_PINK_54": {
+		"font": "ChvyExprs_WHITE_54",
+		"fontColor": "PINK"
+	},
+	"chvyExprs_WHITE_16": {
+		"font": "ChvyExprs_WHITE_16",
+		"fontColor": "WHITE"
+	},
+	"war_chvy_WHITE_16": {
+		"font": "ChvyExprs_WHITE_16",
+		"fontColor": "WHITE",
+		"background": "warningLabel"
+	},
+	"war_OpSa_WHITE_16": {
+		"font": "OpSa_WHITE_16",
+		"fontColor": "WHITE",
+		"background": "warningLabel"
+	},
+	"chvyExprs_PINK_36": {
+		"font": "ChvyExprs_WHITE_36",
+		"fontColor": "PINK"
+	},
+	"OpSa_WHITE_16": {
+		"font": "OpSa_WHITE_16",
+		"fontColor": "WHITE"
+	},
+	"title_chvy_WHITE_24": {
+		"font": "ChvyExprs_WHITE_24",
+		"fontColor": "KEREM",
+		"background": "titleLabelBackground"
+	},
+	"chvyExprs_GREEN_36": {
+		"font": "ChvyExprs_WHITE_36",
+		"fontColor": "GREEN"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
+	"default": {
+		"font": "ChvyExprs_WHITE_24",
+		"fontColorSelected": "PINK",
+		"fontColorUnselected": "GREEN",
+		"selection": "T_UIPanel",
+		"background": "textFieldBack1"
+	},
+	"default2": {
+		"font": "ChvyExprs_WHITE_16",
+		"fontColorSelected": "PINK",
+		"fontColorUnselected": "GREEN",
+		"selection": "T_UIPanel",
+		"background": "textFieldBack1"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle": {
+	"default-horizontal": {
+		"background": "progresBar",
+		"knobBefore": "progressBarBefore"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
+	"default": {
+		"hScroll": "hScroll",
+		"hScrollKnob": "hScrollKnob",
+		"vScroll": "vScroll",
+		"vScrollKnob": "vScrollKnob"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle": {
+	"default": {
+		"font": "ChvyExprs_WHITE_24",
+		"fontColor": "WHITE",
+		"background": "selectBox",
+		"scrollStyle": "default",
+		"listStyle": "default",
+		"backgroundDisabled": "selectBox_DISABLE"
+	},
+	"default2": {
+		"font": "ChvyExprs_WHITE_16",
+		"fontColor": "WHITE",
+		"background": "selectBox",
+		"scrollStyle": "default",
+		"listStyle": "default2",
+		"backgroundDisabled": "selectBox_DISABLE"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
+	"default-horizontal": {
+		"background": "SliderBackgroundBefore",
+		"knob": "SliderKnob",
+		"knobBefore": "SliderBackgroundAfter"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+	"default": {
+		"font": "ChvyExprs_WHITE_24",
+		"fontColor": "PINK",
+		"overFontColor": "GREEN"
+	},
+	"chvy_PINK_36": {
+		"font": "ChvyExprs_WHITE_36",
+		"fontColor": "PINK",
+		"overFontColor": "GREEN"
+	},
+	"chvy_PINK_54": {
+		"font": "ChvyExprs_WHITE_54",
+		"fontColor": "PINK",
+		"overFontColor": "GREEN"
+	},
+	"chvy_PINK_16": {
+		"font": "ChvyExprs_WHITE_16",
+		"fontColor": "PINK",
+		"overFontColor": "GREEN"
+	},
+	"chvy_PINK_24_ui": {
+		"font": "ChvyExprs_WHITE_24",
+		"fontColor": "PINK",
+		"up": "T_UIPanel",
+		"over": "T_UIPanelSelected"
+	},
+	"chvy_PINK_16_ui": {
+		"font": "ChvyExprs_WHITE_16",
+		"fontColor": "PINK",
+		"up": "T_UIPanel",
+		"over": "T_UIPanelSelected"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
+	"default": {
+		"font": "ChvyExprs_WHITE_24",
+		"fontColor": "BLACK",
+		"focusedFontColor": "BLACK",
+		"background": "textFieldBack1",
+		"cursor": "cursor2",
+		"selection": "selection"
+	},
+	"default2": {
+		"font": "ChvyExprs_WHITE_24",
+		"fontColor": "PINK",
+		"focusedFontColor": "WHITE",
+		"background": "textFieldBack2",
+		"cursor": "cursor1",
+		"selection": "selection"
+	},
+	"default3": {
+		"font": "ChvyExprs_WHITE_16",
+		"fontColor": "PINK",
+		"focusedFontColor": "WHITE",
+		"background": "textFieldBack2",
+		"cursor": "cursor1",
+		"selection": "selection"
+	},
+	"default4": {
+		"font": "ChvyExprs_WHITE_16",
+		"fontColor": "BLACK",
+		"focusedFontColor": "BLACK",
+		"background": "textFieldBack1",
+		"cursor": "cursor2",
+		"selection": "selection"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
+	"default": {
+		"label": "default"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+	"default": {
+		"background": "window3",
+		"titleFont": "ChvyExprs_WHITE_16"
+	},
+	"win1": {
+		"background": "window1",
+		"titleFont": "ChvyExprs_WHITE_24"
+	},
+	"win2": {
+		"background": "window2",
+		"titleFont": "ChvyExprs_WHITE_24"
+	},
+	"win3": {
+		"background": "window4",
+		"titleFont": "ChvyExprs_WHITE_24",
+		"stageBackground": "stageBackground"
+	},
+	"win4": {
+		"background": "window on",
+		"titleFont": "ChvyExprs_WHITE_24_boarder"
+	},
+	"empty": {
+		"titleFont": "ChvyExprs_WHITE_16"
+	}
+}
+}

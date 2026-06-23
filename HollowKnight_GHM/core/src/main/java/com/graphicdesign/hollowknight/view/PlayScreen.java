@@ -18,7 +18,7 @@ import com.graphicdesign.hollowknight.HollowKnight;
 import com.graphicdesign.hollowknight.controller.PlayScreenController;
 import com.graphicdesign.hollowknight.model.*;
 
-public class PlayScreen implements Screen {
+public class PlayScreen implements AppView {
     private HollowKnight game;
     private Music music;
     private OrthographicCamera camera;
@@ -49,7 +49,6 @@ public class PlayScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
 
         // initial setting camera :
-        camera.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
         // Box2D initialization :
         world = new World(new Vector2(0, -Constants.GRAVITY), true);
@@ -57,6 +56,7 @@ public class PlayScreen implements Screen {
 
         Vector2 spawn = findPlayerSpawnPoint();
         knight = new Knight(world, spawn);
+        camera.position.set(spawn,0);
 
         controller = new PlayScreenController(knight);
 
@@ -115,12 +115,16 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-        knight.stateTime += delta;
+        knight.update(delta);
+
     }
 
     @Override
     public void resize(int width, int height) {
         gamePort.update(width, height, true);
+        if (knight != null && knight.b2body != null) {
+            camera.position.set(knight.b2body.getPosition().x, knight.b2body.getPosition().y, 0);
+        }
     }
 
     @Override

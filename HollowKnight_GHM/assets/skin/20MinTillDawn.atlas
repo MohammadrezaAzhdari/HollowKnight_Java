@@ -1,0 +1,518 @@
+
+20MinTillDawn.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+ChevyRay - Express
+  rotate: false
+  xy: 1, 807
+  size: 504, 71
+  orig: 504, 71
+  offset: 0, 0
+  index: -1
+ChevyRay - Express(1)
+  rotate: false
+  xy: 1, 880
+  size: 505, 139
+  orig: 505, 139
+  offset: 0, 0
+  index: -1
+ChevyRay - Express(2)
+  rotate: false
+  xy: 515, 1705
+  size: 505, 279
+  orig: 505, 279
+  offset: 0, 0
+  index: -1
+ChevyRay - Express(3)
+  rotate: false
+  xy: 1023, 2005
+  size: 505, 42
+  orig: 505, 42
+  offset: 0, 0
+  index: -1
+ChevyRay - Express(4)_0
+  rotate: false
+  xy: 1, 1535
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+ChevyRay - Express(4)_1
+  rotate: false
+  xy: 1, 1021
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+ChevyRay - Express(7)
+  rotate: false
+  xy: 515, 1552
+  size: 499, 151
+  orig: 499, 151
+  offset: 0, 0
+  index: -1
+OpenSans
+  rotate: false
+  xy: 515, 1986
+  size: 506, 61
+  orig: 506, 61
+  offset: 0, 0
+  index: -1
+BackButton_DOWN
+  rotate: false
+  xy: 401, 427
+  size: 120, 127
+  orig: 120, 127
+  offset: 0, 0
+  index: -1
+BackButton_UP
+  rotate: false
+  xy: 401, 556
+  size: 120, 127
+  orig: 120, 127
+  offset: 0, 0
+  index: -1
+Over
+  rotate: false
+  xy: 515, 1031
+  size: 70, 49
+  orig: 70, 49
+  offset: 0, 0
+  index: -1
+SliderBackgroundAfter
+  rotate: false
+  xy: 1790, 2013
+  size: 161, 34
+  orig: 161, 34
+  offset: 0, 0
+  index: -1
+SliderBackgroundBefore
+  rotate: false
+  xy: 1530, 2013
+  size: 258, 34
+  split: 45, 46, 0, 0
+  pad: 54, 50, 0, 0
+  orig: 258, 34
+  offset: 0, 0
+  index: -1
+SliderBackground_OVER
+  rotate: false
+  xy: 1, 375
+  size: 258, 34
+  split: 45, 46, 0, 0
+  pad: 54, 50, 0, 0
+  orig: 258, 34
+  offset: 0, 0
+  index: -1
+SliderKnob
+  rotate: false
+  xy: 222, 128
+  size: 26, 29
+  orig: 26, 29
+  offset: 0, 0
+  index: -1
+SliderKnob_OVER
+  rotate: false
+  xy: 1022, 1718
+  size: 26, 29
+  orig: 26, 29
+  offset: 0, 0
+  index: -1
+T_UIPanel
+  rotate: false
+  xy: 915, 1424
+  size: 64, 64
+  split: 12, 13, 12, 12
+  pad: 12, 12, 12, 12
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+T_UIPanelSelected
+  rotate: false
+  xy: 736, 1098
+  size: 64, 64
+  split: 12, 13, 12, 12
+  pad: 12, 12, 12, 12
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 752, 1054
+  size: 48, 42
+  orig: 48, 42
+  offset: 0, 0
+  index: -1
+cancelButton
+  rotate: false
+  xy: 697, 1034
+  size: 53, 46
+  orig: 53, 46
+  offset: 0, 0
+  index: -1
+cancelButton_OVER
+  rotate: false
+  xy: 802, 1114
+  size: 53, 46
+  orig: 53, 46
+  offset: 0, 0
+  index: -1
+checkBox2_OFF
+  rotate: false
+  xy: 915, 1490
+  size: 82, 60
+  orig: 82, 60
+  offset: 0, 0
+  index: -1
+checkBox2_ON
+  rotate: false
+  xy: 821, 1226
+  size: 82, 60
+  orig: 82, 60
+  offset: 0, 0
+  index: -1
+checkBox2_ON2
+  rotate: false
+  xy: 736, 1164
+  size: 82, 60
+  orig: 82, 60
+  offset: 0, 0
+  index: -1
+checkBox_OFF
+  rotate: false
+  xy: 378, 389
+  size: 21, 20
+  orig: 21, 20
+  offset: 0, 0
+  index: -1
+checkBox_ON1
+  rotate: false
+  xy: 2018, 2027
+  size: 21, 20
+  orig: 21, 20
+  offset: 0, 0
+  index: -1
+checkButtonDisable
+  rotate: false
+  xy: 820, 1162
+  size: 60, 62
+  orig: 60, 62
+  offset: 0, 0
+  index: -1
+checkButtonFail
+  rotate: false
+  xy: 915, 1296
+  size: 60, 62
+  orig: 60, 62
+  offset: 0, 0
+  index: -1
+checkButtonPass
+  rotate: false
+  xy: 915, 1360
+  size: 60, 62
+  orig: 60, 62
+  offset: 0, 0
+  index: -1
+cursor1
+  rotate: false
+  xy: 981, 1424
+  size: 3, 64
+  orig: 3, 64
+  offset: 0, 0
+  index: -1
+cursor2
+  rotate: false
+  xy: 1016, 1639
+  size: 3, 64
+  orig: 3, 64
+  offset: 0, 0
+  index: -1
+empty
+  rotate: false
+  xy: 1, 36
+  size: 70, 49
+  orig: 70, 49
+  offset: 0, 0
+  index: -1
+exitButton
+  rotate: false
+  xy: 802, 1075
+  size: 47, 37
+  orig: 47, 37
+  offset: 0, 0
+  index: -1
+exitButton2
+  rotate: false
+  xy: 752, 1015
+  size: 47, 37
+  orig: 47, 37
+  offset: 0, 0
+  index: -1
+exitButton2_DOWN
+  rotate: false
+  xy: 801, 997
+  size: 47, 37
+  orig: 47, 37
+  offset: 0, 0
+  index: -1
+exitButton2_OVER
+  rotate: false
+  xy: 1023, 1966
+  size: 47, 37
+  orig: 47, 37
+  offset: 0, 0
+  index: -1
+exitButton_DOWN
+  rotate: false
+  xy: 329, 372
+  size: 47, 37
+  orig: 47, 37
+  offset: 0, 0
+  index: -1
+exitButton_OVER
+  rotate: false
+  xy: 802, 1036
+  size: 47, 37
+  orig: 47, 37
+  offset: 0, 0
+  index: -1
+hScroll
+  rotate: false
+  xy: 261, 388
+  size: 66, 21
+  split: 29, 28, 0, 0
+  pad: 25, 25, 0, 0
+  orig: 66, 21
+  offset: 0, 0
+  index: -1
+hScrollKnob
+  rotate: false
+  xy: 1953, 2023
+  size: 63, 24
+  orig: 63, 24
+  offset: 0, 0
+  index: -1
+leftButton
+  rotate: false
+  xy: 1022, 1828
+  size: 35, 44
+  orig: 35, 44
+  offset: 0, 0
+  index: -1
+leftButton_DOWN
+  rotate: false
+  xy: 1022, 1782
+  size: 35, 44
+  orig: 35, 44
+  offset: 0, 0
+  index: -1
+okButton
+  rotate: false
+  xy: 587, 1025
+  size: 53, 55
+  orig: 53, 55
+  offset: 0, 0
+  index: -1
+okButton_OVER
+  rotate: false
+  xy: 642, 1025
+  size: 53, 55
+  orig: 53, 55
+  offset: 0, 0
+  index: -1
+progresBar
+  rotate: false
+  xy: 1, 1
+  size: 32, 32
+  split: 6, 7, 5, 5
+  pad: 0, 0, 0, 0
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+progressBarBefore
+  rotate: false
+  xy: 1072, 1971
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+rightButton
+  rotate: false
+  xy: 1022, 1920
+  size: 35, 44
+  orig: 35, 44
+  offset: 0, 0
+  index: -1
+rightButton_DOWN
+  rotate: false
+  xy: 1022, 1874
+  size: 35, 44
+  orig: 35, 44
+  offset: 0, 0
+  index: -1
+selectBox
+  rotate: false
+  xy: 73, 35
+  size: 59, 50
+  split: 7, 33, 40, 6
+  pad: 6, 30, 6, 6
+  orig: 59, 50
+  offset: 0, 0
+  index: -1
+selectBox_DISABLE
+  rotate: false
+  xy: 134, 35
+  size: 59, 50
+  split: 7, 33, 40, 6
+  pad: 6, 30, 6, 6
+  orig: 59, 50
+  offset: 0, 0
+  index: -1
+selection
+  rotate: false
+  xy: 2041, 1983
+  size: 6, 64
+  orig: 6, 64
+  offset: 0, 0
+  index: -1
+stageBackground
+  rotate: false
+  xy: 1, 411
+  size: 398, 130
+  orig: 398, 130
+  offset: 0, 0
+  index: -1
+start
+  rotate: false
+  xy: 515, 1154
+  size: 219, 70
+  orig: 219, 70
+  offset: 0, 0
+  index: -1
+start_DOWN
+  rotate: false
+  xy: 1, 87
+  size: 219, 70
+  orig: 219, 70
+  offset: 0, 0
+  index: -1
+start_OVER
+  rotate: false
+  xy: 515, 1082
+  size: 219, 70
+  orig: 219, 70
+  offset: 0, 0
+  index: -1
+textFieldBack1
+  rotate: false
+  xy: 1106, 1972
+  size: 31, 31
+  split: 5, 5, 5, 5
+  pad: 8, 8, 5, 5
+  orig: 31, 31
+  offset: 0, 0
+  index: -1
+textFieldBack2
+  rotate: false
+  xy: 1022, 1749
+  size: 31, 31
+  split: 5, 5, 5, 5
+  pad: 8, 8, 5, 5
+  orig: 31, 31
+  offset: 0, 0
+  index: -1
+tickButton
+  rotate: false
+  xy: 1, 159
+  size: 248, 214
+  orig: 248, 214
+  offset: 0, 0
+  index: -1
+tickButton_medium
+  rotate: false
+  xy: 401, 685
+  size: 139, 120
+  orig: 139, 120
+  offset: 0, 0
+  index: -1
+titleLabelBackground
+  rotate: false
+  xy: 515, 1226
+  size: 304, 60
+  split: 136, 145, 0, 0
+  pad: 140, 152, 4, 4
+  orig: 304, 60
+  offset: 0, 0
+  index: -1
+vScroll
+  rotate: false
+  xy: 523, 617
+  size: 21, 66
+  split: 0, 0, 28, 29
+  pad: 0, 0, 25, 25
+  orig: 21, 66
+  offset: 0, 0
+  index: -1
+vScrollKnob
+  rotate: false
+  xy: 882, 1161
+  size: 24, 63
+  orig: 24, 63
+  offset: 0, 0
+  index: -1
+warningLabel
+  rotate: false
+  xy: 195, 60
+  size: 24, 25
+  split: 11, 11, 11, 11
+  pad: 11, 11, 12, 12
+  orig: 24, 25
+  offset: 0, 0
+  index: -1
+window on
+  rotate: false
+  xy: 401, 398
+  size: 17, 27
+  split: 8, 8, 9, 9
+  pad: 4, 4, 6, 6
+  orig: 17, 27
+  offset: 0, 0
+  index: -1
+window1
+  rotate: false
+  xy: 1, 675
+  size: 398, 130
+  split: 100, 114, 76, 23
+  pad: 40, 28, 74, 20
+  orig: 398, 130
+  offset: 0, 0
+  index: -1
+window2
+  rotate: false
+  xy: 515, 1420
+  size: 398, 130
+  split: 290, 86, 79, 25
+  pad: 40, 30, 75, 25
+  orig: 398, 130
+  offset: 0, 0
+  index: -1
+window3
+  rotate: false
+  xy: 1, 543
+  size: 398, 130
+  split: 292, 84, 76, 22
+  pad: 40, 31, 75, 23
+  orig: 398, 130
+  offset: 0, 0
+  index: -1
+window4
+  rotate: false
+  xy: 515, 1288
+  size: 398, 130
+  split: 103, 119, 76, 22
+  pad: 39, 30, 74, 20
+  orig: 398, 130
+  offset: 0, 0
+  index: -1
