@@ -1,6 +1,7 @@
 package com.graphicdesign.hollowknight.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -11,7 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.graphicdesign.hollowknight.model.AssetManagerLocal;
 import com.graphicdesign.hollowknight.model.Constants;
 
-public class AchievementScreen implements AppView{
+public class AchievementScreen extends AbstractScreen {
     private final Stage stage;
     //private final Texture background;
     private Texture completion, speedRun, TrueHunter, DefeatFalseKnight;

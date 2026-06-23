@@ -1,6 +1,8 @@
 package com.graphicdesign.hollowknight.view;
 
-public class GuideScreen implements AppView{
+import com.badlogic.gdx.Screen;
+
+public class GuideScreen extends AbstractScreen {
 
     @Override
     public void show() {

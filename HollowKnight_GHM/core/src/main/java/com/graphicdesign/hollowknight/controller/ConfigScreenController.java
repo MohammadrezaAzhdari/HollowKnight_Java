@@ -8,6 +8,7 @@ import com.graphicdesign.hollowknight.HollowKnight;
 import com.graphicdesign.hollowknight.model.AudioManager;
 import com.graphicdesign.hollowknight.view.ConfigScreen;
 import com.graphicdesign.hollowknight.view.MainScreen;
+import com.graphicdesign.hollowknight.view.UiManager;
 
 public class ConfigScreenController {
     private ConfigScreen screen;
@@ -76,7 +77,7 @@ public class ConfigScreenController {
         screen.getSaveButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                HollowKnight.getGame().setScreen(new MainScreen());
+                UiManager.setScreen(new MainScreen());
             }
         });
     }

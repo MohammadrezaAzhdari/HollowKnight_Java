@@ -6,6 +6,7 @@ import com.graphicdesign.hollowknight.HollowKnight;
 import com.graphicdesign.hollowknight.view.MainScreen;
 import com.graphicdesign.hollowknight.view.PlayScreen;
 import com.graphicdesign.hollowknight.view.StartScreen;
+import com.graphicdesign.hollowknight.view.UiManager;
 
 public class StartScreenController {
     private StartScreen screen;
@@ -19,7 +20,8 @@ public class StartScreenController {
         screen.getNewGame().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                HollowKnight.getGame().setScreen(new PlayScreen(HollowKnight.getGame()));
+                System.out.println("New Game button clicked!");
+                UiManager.setScreen(new PlayScreen(HollowKnight.getGame()));
             }
         });
         screen.getSlot1().addListener(createLoadListener(1));
@@ -30,7 +32,7 @@ public class StartScreenController {
         screen.getBack().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                HollowKnight.getGame().setScreen(new MainScreen());
+                UiManager.setScreen(new MainScreen());
             }
         });
     }

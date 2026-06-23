@@ -8,6 +8,7 @@ public class Constants {
     public static final float KNIGHT_B2BODY_WIDTH = 20f;
     public static final float KNIGHT_B2BODY_HEIGHT = 55f;
     public static final float JUMP = 20;
+    public static final int MAX_CHARM_CAPACITY = 3;
 
     // world logic and physic :
     public static final float TIME_SPEED = 1/30f;

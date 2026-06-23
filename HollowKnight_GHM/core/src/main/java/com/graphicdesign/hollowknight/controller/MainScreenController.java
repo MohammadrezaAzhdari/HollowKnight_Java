@@ -19,7 +19,7 @@ public class MainScreenController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // TODO : Add music
-                HollowKnight.getGame().setScreen(new StartScreen());
+                UiManager.setScreen(new StartScreen());
                 screen.dispose();
             }
         });
@@ -27,7 +27,7 @@ public class MainScreenController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //TODO : Add music
-                HollowKnight.getGame().setScreen(new ConfigScreen());
+                UiManager.setScreen(new ConfigScreen());
                 screen.dispose();
             }
         });
@@ -35,7 +35,7 @@ public class MainScreenController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // TODO : Add music
-                HollowKnight.getGame().setScreen(new AchievementScreen());
+                UiManager.setScreen(new AchievementScreen());
                 screen.dispose();
             }
         });
@@ -43,7 +43,7 @@ public class MainScreenController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //TODO : Add music
-                HollowKnight.getGame().setScreen(new GuideScreen());
+                UiManager.setScreen(new GuideScreen());
                 screen.dispose();
             }
         });

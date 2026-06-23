@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.graphicdesign.hollowknight.model.AssetManagerLocal;
 import com.graphicdesign.hollowknight.view.MainScreen;
 import com.graphicdesign.hollowknight.view.PlayScreen;
+import com.graphicdesign.hollowknight.view.UiManager;
 
 public class HollowKnight extends Game {
     public SpriteBatch batch;
@@ -22,6 +23,7 @@ public class HollowKnight extends Game {
     public void create() {
         batch = new SpriteBatch();
         game = this;
+        UiManager.init(this);
         setScreen(new MainScreen());
     }
 

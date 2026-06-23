@@ -8,6 +8,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.graphicdesign.hollowknight.model.enums.KnightAnimation;
 import com.graphicdesign.hollowknight.model.enums.KnightState;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Knight {
     private World world;
     public Body b2body;
@@ -17,6 +20,8 @@ public class Knight {
     public int jumpCount = 0;
     public KnightState currentState;
     public KnightState previousState;
+    public List<String> charms = new ArrayList<>();
+
 
     public Knight (World world, Vector2 spawn) {
         this.world = world;
@@ -111,7 +116,6 @@ public class Knight {
             }
             case LANDING:
             {
-                System.out.println("1_");
                 animation = KnightAnimation.LANDING;
                 break;
             }

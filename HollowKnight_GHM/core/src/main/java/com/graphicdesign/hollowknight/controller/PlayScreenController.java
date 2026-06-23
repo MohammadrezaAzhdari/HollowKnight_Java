@@ -7,6 +7,8 @@ import com.graphicdesign.hollowknight.model.Knight;
 
 import com.badlogic.gdx.Input;
 import com.graphicdesign.hollowknight.model.enums.KnightAnimation;
+import com.graphicdesign.hollowknight.view.modals.InventoryModal;
+import com.graphicdesign.hollowknight.view.modals.PauseModal;
 
 public class PlayScreenController extends InputAdapter {
     private Knight knight;
@@ -37,12 +39,13 @@ public class PlayScreenController extends InputAdapter {
                 rightPressed = true;
                 return true;
             case Input.Keys.ESCAPE:
-                // Toggle Pause Menu
+                PauseModal pauseModal = new PauseModal();
+                pauseModal.show();
                 System.out.println("Pause Menu");
                 return true;
             case Input.Keys.I:
-                // Toggle Inventory
-                System.out.println("Inventory");
+                InventoryModal inventory = new InventoryModal(knight);
+                inventory.show();
                 return true;
         }
         return false;

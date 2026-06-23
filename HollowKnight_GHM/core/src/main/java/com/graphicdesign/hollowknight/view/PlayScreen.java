@@ -1,6 +1,7 @@
 package com.graphicdesign.hollowknight.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,7 +19,7 @@ import com.graphicdesign.hollowknight.HollowKnight;
 import com.graphicdesign.hollowknight.controller.PlayScreenController;
 import com.graphicdesign.hollowknight.model.*;
 
-public class PlayScreen implements AppView {
+public class PlayScreen extends AbstractScreen {
     private HollowKnight game;
     private Music music;
     private OrthographicCamera camera;
@@ -93,7 +94,13 @@ public class PlayScreen implements AppView {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(controller);
+        super.show();
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(controller);
+        Gdx.input.setInputProcessor(multiplexer);
+
     }
 
     @Override
@@ -117,25 +124,18 @@ public class PlayScreen implements AppView {
 
         knight.update(delta);
 
+        super.render(delta);
     }
 
     @Override
     public void resize(int width, int height) {
+        super.resize(width, height);
         gamePort.update(width, height, true);
         if (knight != null && knight.b2body != null) {
             camera.position.set(knight.b2body.getPosition().x, knight.b2body.getPosition().y, 0);
         }
     }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
 
     @Override
     public void hide() {
@@ -144,7 +144,11 @@ public class PlayScreen implements AppView {
 
     @Override
     public void dispose() {
-
+        // TODO -> Do i need to save information in JSON file before disposing?
+        map.dispose();
+        renderer.dispose();
+        world.dispose();
+        b2dr.dispose();
     }
 
     public TiledMap getMap() {
