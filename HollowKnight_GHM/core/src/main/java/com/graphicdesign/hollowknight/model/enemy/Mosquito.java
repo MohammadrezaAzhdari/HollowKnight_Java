@@ -11,12 +11,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.graphicdesign.hollowknight.model.AssetManagerLocal;
 import com.graphicdesign.hollowknight.model.Constants;
 import com.graphicdesign.hollowknight.model.Knight;
-import com.graphicdesign.hollowknight.model.enums.MosquitoStates;
+import com.graphicdesign.hollowknight.model.enums.MosquitoState;
 import com.graphicdesign.hollowknight.model.enums.animation.MosquitoAnimation;
 
 public class Mosquito extends FlyingEnemy{
-    private MosquitoStates currentState;
-    private MosquitoStates previousState;
+    private MosquitoState currentState;
+    private MosquitoState previousState;
 
     private Knight player;
     private float stateTime;
@@ -29,8 +29,8 @@ public class Mosquito extends FlyingEnemy{
     public Mosquito(World world, float x, float y, Knight player) {
         super(world, x, y);
         this.player = player;
-        currentState = MosquitoStates.IDLE;
-        previousState = MosquitoStates.IDLE;
+        currentState = MosquitoState.IDLE;
+        previousState = MosquitoState.IDLE;
         stateTime = 0;
         attackDirection = new Vector2();
 
@@ -77,7 +77,7 @@ public class Mosquito extends FlyingEnemy{
             {
                 b2body.setLinearVelocity(0,0);
                 if(distanceToPlayer <= Constants.MOSQUITO_SEEN_RANGE) {
-                    changeState(MosquitoStates.CHASING);
+                    changeState(MosquitoState.CHASING);
                 }
                 break;
             }
@@ -89,7 +89,7 @@ public class Mosquito extends FlyingEnemy{
                                          chaseDirection.y * Constants.MOSQUITO_CHASE_SPEED);
                 if(attackCooldown >= Constants.MOSQUITO_ATTACK_COOLDOWN &&
                     distanceToPlayer < Constants.MOSQUITO_ATTACK_RANGE) {
-                    changeState(MosquitoStates.ANTICIPATING);
+                    changeState(MosquitoState.ANTICIPATING);
                     attackDirection.set(playerPosition.x - myPosition.x,
                                         playerPosition.y - myPosition.y).nor();
                 }
@@ -99,7 +99,7 @@ public class Mosquito extends FlyingEnemy{
             {
                 b2body.setLinearVelocity(0, 0);
                 if (stateTime >= Constants.MOSQUITO_ANTICIPATION_TIME) {
-                    changeState(MosquitoStates.ATTACKING);
+                    changeState(MosquitoState.ATTACKING);
                 }
                 break;
             }
@@ -110,7 +110,7 @@ public class Mosquito extends FlyingEnemy{
 
                 if(stateTime >= Constants.MOSQUITO_ATTACK_DURATION) {
                     attackCooldown = 0;
-                    changeState(MosquitoStates.CHASING);
+                    changeState(MosquitoState.CHASING);
                 }
                 break;
             }
@@ -148,7 +148,7 @@ public class Mosquito extends FlyingEnemy{
         }
     }
 
-    private void changeState(MosquitoStates state) {
+    private void changeState(MosquitoState state) {
         if(currentState == state)return;
         previousState = currentState;
         currentState = state;

@@ -9,9 +9,10 @@ public class Constants {
     public static final float KNIGHT_B2BODY_HEIGHT = 55f;
     public static final float JUMP = 20;
     public static final int MAX_CHARM_CAPACITY = 3;
+    public static final float KNIGHT_FRICTION = 0f;
 
     // world logic and physic :
-    public static final float TIME_SPEED = 1/30f;
+    public static final float TIME_SPEED = 1/60f;
     public static final int COLLISION_VELOCITY_CALCULATION_SPEED = 6;
     public static final int COLLISION_POSITION_CALCULATION_SPEED = 2;
     public static final float GRAVITY = 40;
@@ -23,7 +24,7 @@ public class Constants {
     public static final short DESTROYABLE_BIT = 2;
     public static final short ENEMY_BIT = 4;
     public static final short KNIGHT_BIT = 8;
-    public static final short NAIL_BIT = 16;
+    public static final short NPC_BIT = 16;
     public static final short CLIFF_BIT = 32;
 
     // camera :
@@ -62,4 +63,19 @@ public class Constants {
     public static final float MOSQUITO_CHASE_SPEED = 4f;
     public static final float MOSQUITO_ATTACK_SPEED = 10f;
     public static final float MOSQUITO_ATTACK_RANGE = MOSQUITO_SEEN_RANGE * 0.8f;
+
+    // Crystallized constants :
+    public static final float CRYSTALLIZED_WIDTH = 60f;
+    public static final float CRYSTALLIZED_HEIGHT = 75f;
+    public static final float CRYSTALLIZED_ENRAGED_SPEED = 3f;
+    public static final float CRYSTALLIZED_ENRAGED_DURATION = 3f;
+    public static final float CRYSTALLIZED_SIGHT_X_RANGE = 400f / PPM;
+    public static final float CRYSTALLIZED_SIGHT_Y_RANGE = 50f / PPM;
+    public static final float CRYSTALLIZED_SHOOTING_DURATION = 2f;
+
+    // Zote constants :
+    public static final float ZOTE_WIDTH = 30f;
+    public static final float ZOTE_HEIGHT = 80f;
+    public static final float ZOTE_DIALOG_RADIUS = 300f / PPM;
+
 }

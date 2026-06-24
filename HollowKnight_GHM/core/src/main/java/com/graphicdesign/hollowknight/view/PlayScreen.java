@@ -41,6 +41,7 @@ public class PlayScreen extends AbstractScreen {
     private World world;
     private Box2DDebugRenderer b2dr;
     private Knight knight;
+    private Zote zote;
 
     public PlayScreen(HollowKnight game) {
         this.game = game;
@@ -63,9 +64,10 @@ public class PlayScreen extends AbstractScreen {
 
         Vector2 spawn = findPlayerSpawnPoint();
         knight = new Knight(world, spawn);
+
         camera.position.set(spawn,0);
 
-        controller = new PlayScreenController(knight);
+        controller = new PlayScreenController(knight, zote);
 
         // creates floor for now
         new B2WorldCreator(this);
@@ -101,6 +103,7 @@ public class PlayScreen extends AbstractScreen {
         for (Enemy enemy : enemies) {
             enemy.update(deltaTime);
         }
+        zote.update(deltaTime);
     }
 
     @Override
@@ -130,6 +133,7 @@ public class PlayScreen extends AbstractScreen {
         for(Enemy enemy : enemies) {
             enemy.draw(game.batch);
         }
+        zote.draw(game.batch);
 
         game.batch.end();
 
@@ -187,4 +191,11 @@ public class PlayScreen extends AbstractScreen {
     }
 
     public void addEnemy(Enemy enemy) {enemies.add(enemy);}
+
+    public void setZote(Zote zote) {
+        this.zote = zote;
+        if(controller != null) {
+            controller.setZote(zote);
+        }
+    }
 }

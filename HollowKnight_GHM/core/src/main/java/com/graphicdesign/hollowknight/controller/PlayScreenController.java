@@ -6,18 +6,22 @@ import com.graphicdesign.hollowknight.model.Constants;
 import com.graphicdesign.hollowknight.model.Knight;
 
 import com.badlogic.gdx.Input;
+import com.graphicdesign.hollowknight.model.Zote;
 import com.graphicdesign.hollowknight.model.enums.animation.KnightAnimation;
+import com.graphicdesign.hollowknight.view.modals.DialogModal;
 import com.graphicdesign.hollowknight.view.modals.InventoryModal;
 import com.graphicdesign.hollowknight.view.modals.PauseModal;
 
 public class PlayScreenController extends InputAdapter {
     private Knight knight;
+    private Zote zote;
 
     private boolean leftPressed;
     private boolean rightPressed;
 
-    public PlayScreenController(Knight knight) {
+    public PlayScreenController(Knight knight, Zote zote) {
         this.knight = knight;
+        this.zote = zote;
     }
 
     @Override
@@ -47,6 +51,16 @@ public class PlayScreenController extends InputAdapter {
                 InventoryModal inventory = new InventoryModal(knight);
                 inventory.show();
                 return true;
+            case Input.Keys.E:
+            {
+                if(zote.isPlayerInRange()) {
+                    resetMovement();
+                    DialogModal dialog = new DialogModal();
+                    dialog.show();
+                    return true;
+                }
+                break;
+            }
         }
         return false;
     }
@@ -76,5 +90,14 @@ public class PlayScreenController extends InputAdapter {
         if (velocity.x == 0 && velocity.y == 0) {
             knight.animation = KnightAnimation.IDLE;
         }
+    }
+    public void resetMovement() {
+        leftPressed = false;
+        rightPressed = false;
+        knight.b2body.setLinearVelocity(0, knight.b2body.getLinearVelocity().y);
+    }
+
+    public void setZote(Zote zote) {
+        this.zote = zote;
     }
 }

@@ -28,10 +28,13 @@ public class WorldContactListener implements ContactListener {
                 }
             }
         }
+
     }
 
     @Override
     public void endContact(Contact contact) {
+        Fixture fix1 = contact.getFixtureA();
+        Fixture fix2 = contact.getFixtureB();
 
     }
 

@@ -31,6 +31,12 @@ public class AssetManagerLocal {
         for (MosquitoAnimation type : MosquitoAnimation.values()) {
             loadAnimation(type);
         }
+        for(CrystalGuardianAnimation type : CrystalGuardianAnimation.values()) {
+            loadAnimation(type);
+        }
+        for (ZoteAnimation type : ZoteAnimation.values()) {
+            loadAnimation(type);
+        }
     }
 
     public static AssetManagerLocal getInstance() {

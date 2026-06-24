@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.graphicdesign.hollowknight.model.enemy.CrystalGuardian;
 import com.graphicdesign.hollowknight.model.enemy.Mosquito;
 import com.graphicdesign.hollowknight.model.enemy.TickTick;
 import com.graphicdesign.hollowknight.model.enemy.WingedSentry;
@@ -54,6 +55,12 @@ public class B2WorldCreator {
             }
             if(type.equals("Mosquito")) {
                 screen.addEnemy(new Mosquito(world, x, y, screen.getKnight()));
+            }
+            if(type.equals("Crystallized")) {
+                screen.addEnemy(new CrystalGuardian(world, x, y, screen.getKnight()));
+            }
+            if(type.equals("Zote")) {
+                screen.setZote(new Zote(world, x, y, screen.getKnight()));
             }
         }
     }

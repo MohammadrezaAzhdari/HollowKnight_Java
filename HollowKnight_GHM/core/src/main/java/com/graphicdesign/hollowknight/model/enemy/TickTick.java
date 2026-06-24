@@ -66,7 +66,6 @@ public class TickTick extends GroundEnemy{
     @Override
     public void draw(SpriteBatch batch) {
         Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(currentAnimation);
-        if(destroyed && animation.isAnimationFinished(stateTime)) {return;}
         TextureRegion region = animation.getKeyFrame(stateTime);
 
         if (walkRight && region.isFlipX()) {

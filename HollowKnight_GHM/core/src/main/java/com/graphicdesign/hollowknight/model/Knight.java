@@ -41,9 +41,10 @@ public class Knight {
 
         FixtureDef fdef = new FixtureDef();
         fdef.shape = shape;
+        //fdef.friction = Constants.KNIGHT_FRICTION;
 
         fdef.filter.categoryBits = Constants.KNIGHT_BIT;
-        fdef.filter.maskBits = Constants.GROUND_BIT | Constants.DESTROYABLE_BIT | Constants.ENEMY_BIT;
+        fdef.filter.maskBits = Constants.GROUND_BIT | Constants.DESTROYABLE_BIT | Constants.ENEMY_BIT | Constants.NPC_BIT;
 
         b2body.createFixture(fdef).setUserData(this);
 
