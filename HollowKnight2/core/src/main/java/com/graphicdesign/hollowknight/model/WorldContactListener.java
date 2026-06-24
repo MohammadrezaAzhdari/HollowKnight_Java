@@ -27,12 +27,8 @@ public class WorldContactListener implements ContactListener {
     }
 
     @Override
-    public void preSolve(Contact contact, Manifold manifold) {
-
-    }
+    public void preSolve(Contact contact, Manifold manifold) {}
 
     @Override
-    public void postSolve(Contact contact, ContactImpulse contactImpulse) {
-
-    }
+    public void postSolve(Contact contact, ContactImpulse contactImpulse) {}
 }

@@ -19,7 +19,7 @@ import com.graphicdesign.hollowknight.model.Constants;
 public class MainScreen extends AbstractScreen {
     private Texture backGround;
     private Texture logoTexture;
-    // TODO -> Animation in back ground
+    // TODO -> AnimationData in back ground
     private  TextButton startButton;
     private  TextButton configButton;
     private  TextButton guideButton;

@@ -85,7 +85,7 @@ public abstract class AbstractScreen implements Screen {
 
         Table toast = new Table();
         toast.pad(5);
-        toast.setBackground(skin.getDrawable("window"));
+        //toast.setBackground(skin.getDrawable("window")); // TODO -> Add background to toast
 
         Label messageLabel = new Label(message, skin);
 
@@ -97,7 +97,9 @@ public abstract class AbstractScreen implements Screen {
         toast.addAction(
             Actions.sequence(
                 Actions.moveBy(0, -100),
-                Actions.moveBy(0, 100, 0.5f, Interpolation.swingOut)
+                Actions.moveBy(0, 100, 0.5f, Interpolation.swingOut),
+                Actions.delay(3f),
+                Actions.fadeOut(1f, Interpolation.smoother)
             )
         );
 

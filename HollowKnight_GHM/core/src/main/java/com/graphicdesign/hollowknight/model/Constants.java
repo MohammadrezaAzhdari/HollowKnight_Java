@@ -24,6 +24,7 @@ public class Constants {
     public static final short ENEMY_BIT = 4;
     public static final short KNIGHT_BIT = 8;
     public static final short NAIL_BIT = 16;
+    public static final short CLIFF_BIT = 32;
 
     // camera :
     public static final float CAMERA_DELAY = 5f; // lower = more delay.
@@ -37,4 +38,28 @@ public class Constants {
     public static final float V_WIDTH = 1280;
     public static final float V_HEIGHT = 720;
 
+    // Enemy constants :
+    public static final float TICKTICK_WIDTH = 32f;
+    public static final float TICKTICK_HEIGHT = 32f;
+    public static final float TICKTICK_SPEED = 1f;
+
+
+    // Winged sentry constants :
+    public static final float WINGED_SENTRY_WIDTH  = 32; // sprite pixel width
+    public static final float WINGED_SENTRY_HEIGHT = 32; // sprite pixel height
+    public static final float WINGED_SENTRY_SPEED  = 5f;  // world units/sec
+    public static final float WINGED_SENTRY_MAX_CHARGE_TIME = 1.2f; // seconds
+    public static final float WINGED_SENTRY_DETECTION_RANGE = 6f;       // horizontal
+    public static final float WINGED_SENTRY_DETECTION_VERTICAL_RANGE = 2f; // vertical
+
+    // Mosquito constants :
+    public static final float MOSQUITO_SEEN_RANGE = 200f / PPM;
+    public static final float MOSQUITO_ATTACK_COOLDOWN = 4f;
+    public static final float MOSQUITO_ANTICIPATION_TIME = 1f;    // -> delay before dash
+    public static final float MOSQUITO_ATTACK_DURATION = 0.8f;        // -> Attack time
+    public static final float MOSQUITO_WIDTH = 16f;
+    public static final float MOSQUITO_HEIGHT = 16f;
+    public static final float MOSQUITO_CHASE_SPEED = 4f;
+    public static final float MOSQUITO_ATTACK_SPEED = 10f;
+    public static final float MOSQUITO_ATTACK_RANGE = MOSQUITO_SEEN_RANGE * 0.8f;
 }

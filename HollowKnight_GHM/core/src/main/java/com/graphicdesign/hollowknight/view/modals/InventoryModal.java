@@ -1,10 +1,13 @@
 package com.graphicdesign.hollowknight.view.modals;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.graphicdesign.hollowknight.model.AssetManagerLocal;
 import com.graphicdesign.hollowknight.model.Constants;
 import com.graphicdesign.hollowknight.model.Knight;
 import com.graphicdesign.hollowknight.view.UiManager;
@@ -17,10 +20,11 @@ public class InventoryModal extends Modal{
     private Label capacityLabel;
     // Initialize the array with your actual charm data here
     private final String[][] allCharms = {
-        {"Wayward Compass", "Whispers its location to the bearer.", "charm1_region"},
-        {"Gathering Swarm", "A swarm will follow the bearer and gather geo.", "charm2_region"},
-        {"Stalwart Shell", "Builds resilience. Increases recovery time.", "charm3_region"},
-        {"Soul Catcher", "Increases the amount of SOUL gained.", "charm4_region"}
+        {"Unbreakable Strength", "Increases strength of Nail and damage to enemies", "UnbreakableStrength.png"},
+        {"Soul Catcher", "Increases the amount of SOUL gained", "SoulCatcher.png"},
+        {"Quick slash", "Increases attack speed and decreases its cooldown", "QuickSlash.png"},
+        {"Quick focus", "Increases FOCUS speed", "QuickFocus.png"},
+        {"Dash Master", "Decreases DASH cooldown", "Dashmaster.png"}
     };
 
     public InventoryModal(Knight knight) {
@@ -51,20 +55,18 @@ public class InventoryModal extends Modal{
         charmGrid.clearChildren();
 
         for (int i = 0; i < allCharms.length; i++) {
-            final String charmName = allCharms[i][0];
-            final String charmDesc = allCharms[i][1];
-            // final String regionName = allCharms[i][2];
+            String charmName = allCharms[i][0];
+            String charmDesc = allCharms[i][1];
+            String regionName = allCharms[i][2];
 
-            // TODO: Get actual image from your AssetManagerLocal
-            // TextureRegion region = AssetManagerLocal.getInstance().getTextureRegion(regionName);
-            // Image charmIcon = new Image(region);
+            Texture texture = AssetManagerLocal.getInstance().getTexture(regionName);
+            Image charmIcon = new Image(texture);
 
-            Label charmIcon = new Label("[" + charmName + "]", skin);
 
             if (knight.charms.contains(charmName)) {
-                charmIcon.setColor(Color.GREEN); // Equipped
+
             } else {
-                charmIcon.setColor(Color.GRAY); // Unequipped
+                charmIcon.setColor(Color.DARK_GRAY); // Unequipped
             }
 
             charmIcon.addListener(new ClickListener() {

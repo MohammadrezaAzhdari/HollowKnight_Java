@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.graphicdesign.hollowknight.model.enums.KnightAnimation;
+import com.graphicdesign.hollowknight.model.enums.animation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,12 +14,21 @@ import java.util.Map;
 public class AssetManagerLocal {
     private static AssetManagerLocal instance;
     private final Map<String, String> assetMap = new HashMap<>();
-    public final HashMap<KnightAnimation, Animation<TextureRegion>> animationMap = new HashMap<>();
+    public final HashMap<AnimationData, Animation<TextureRegion>> animationMap = new HashMap<>();
 
 
     private AssetManagerLocal() {
         scanAsset(".");
         for (KnightAnimation type : KnightAnimation.values()) {
+            loadAnimation(type);
+        }
+        for (TickTickAnimation type : TickTickAnimation.values()) {
+            loadAnimation(type);
+        }
+        for(WingedSentryAnimation type : WingedSentryAnimation.values()) {
+            loadAnimation(type);
+        }
+        for (MosquitoAnimation type : MosquitoAnimation.values()) {
             loadAnimation(type);
         }
     }
@@ -31,16 +40,16 @@ public class AssetManagerLocal {
         return instance;
     }
 
-    public void loadAnimation(KnightAnimation type) {
-        Texture texture = new Texture(type.path);
+    public void loadAnimation(AnimationData type) {
+        Texture texture = new Texture(type.getPath());
 
         TextureRegion[][] split = TextureRegion.split(
             texture,
-            texture.getWidth() / type.colCount,
-            texture.getHeight() / type.rowCount
+            texture.getWidth() / type.getColCount(),
+            texture.getHeight() / type.getRowCount()
         );
 
-        int frameCount = type.frameCount;
+        int frameCount = type.getFrameCount();
         TextureRegion[] frames = new TextureRegion[frameCount];
 
         int cols = split[0].length;
@@ -52,17 +61,7 @@ public class AssetManagerLocal {
         }
 
         Animation<TextureRegion> animation = new Animation<>(Constants.FRAME_DURATION, frames);
-
-        if(type == KnightAnimation.DEATH ||
-            type == KnightAnimation.LANDING ||
-            type == KnightAnimation.RUN_TO_IDLE ||
-            type == KnightAnimation.DOUBLE_JUMP) {
-            animation.setPlayMode(Animation.PlayMode.NORMAL);
-        }
-        else{
-            animation.setPlayMode(Animation.PlayMode.LOOP);
-        }
-
+        animation.setPlayMode(type.getPlayMode());
         animationMap.put(type, animation);
     }
 

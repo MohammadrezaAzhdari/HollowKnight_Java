@@ -6,7 +6,7 @@ import com.graphicdesign.hollowknight.model.Constants;
 import com.graphicdesign.hollowknight.model.Knight;
 
 import com.badlogic.gdx.Input;
-import com.graphicdesign.hollowknight.model.enums.KnightAnimation;
+import com.graphicdesign.hollowknight.model.enums.animation.KnightAnimation;
 import com.graphicdesign.hollowknight.view.modals.InventoryModal;
 import com.graphicdesign.hollowknight.view.modals.PauseModal;
 

@@ -18,6 +18,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.graphicdesign.hollowknight.HollowKnight;
 import com.graphicdesign.hollowknight.controller.PlayScreenController;
 import com.graphicdesign.hollowknight.model.*;
+import com.graphicdesign.hollowknight.model.enemy.Enemy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayScreen extends AbstractScreen {
     private HollowKnight game;
@@ -26,6 +30,7 @@ public class PlayScreen extends AbstractScreen {
     private ScreenViewport gamePort;
     private Hud hud;
     private PlayScreenController controller;
+    private List<Enemy> enemies;
 
     // Loading map :
     private TmxMapLoader mapLoader;
@@ -48,6 +53,7 @@ public class PlayScreen extends AbstractScreen {
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("maps/cityOfTears/map1.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
+        enemies = new ArrayList<>();
 
         // initial setting camera :
 
@@ -90,6 +96,11 @@ public class PlayScreen extends AbstractScreen {
         camera.position.y += (knight.b2body.getPosition().y - camera.position.y) * delay;
         camera.update();
         renderer.setView(camera);
+        knight.update(deltaTime);
+
+        for (Enemy enemy : enemies) {
+            enemy.update(deltaTime);
+        }
     }
 
     @Override
@@ -116,13 +127,15 @@ public class PlayScreen extends AbstractScreen {
         game.batch.begin();
 
         knight.draw(game.batch);
+        for(Enemy enemy : enemies) {
+            enemy.draw(game.batch);
+        }
 
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-        knight.update(delta);
 
         super.render(delta);
     }
@@ -168,4 +181,10 @@ public class PlayScreen extends AbstractScreen {
 
         return spawn;
     }
+
+    public Knight getKnight() {
+        return knight;
+    }
+
+    public void addEnemy(Enemy enemy) {enemies.add(enemy);}
 }

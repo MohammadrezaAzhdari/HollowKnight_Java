@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.graphicdesign.hollowknight.model.enums.KnightAnimation;
+import com.graphicdesign.hollowknight.model.enums.animation.KnightAnimation;
 import com.graphicdesign.hollowknight.model.enums.KnightState;
 
 import java.util.ArrayList;
@@ -45,13 +45,13 @@ public class Knight {
         fdef.filter.categoryBits = Constants.KNIGHT_BIT;
         fdef.filter.maskBits = Constants.GROUND_BIT | Constants.DESTROYABLE_BIT | Constants.ENEMY_BIT;
 
-        b2body.createFixture(fdef).setUserData("player");
+        b2body.createFixture(fdef).setUserData(this);
 
         shape.dispose();
     }
     public void draw(SpriteBatch batch) {
         Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(this.animation);
-        TextureRegion keyFrame = animation.getKeyFrame(this.stateTime, true);
+        TextureRegion keyFrame = animation.getKeyFrame(this.stateTime);
 
         correctKnightDirection(keyFrame);
         float width = keyFrame.getRegionWidth() / Constants.PPM;
