@@ -10,6 +10,8 @@
         public float stateTime;
         protected boolean setToDestroy = false;
         protected boolean destroyed = false;
+        protected int health;
+        protected boolean isDead = false;
 
         public Enemy(World world, float x, float y) {
             this.world = world;
@@ -21,5 +23,11 @@
         public abstract void draw(SpriteBatch batch);
 
         public void destroy() {setToDestroy = true;}
+        public void takeDamage(int amount){
+            health -= amount;
+            if(health <= 0) {
+                isDead = true;
+            }
+        }
 
     }

@@ -2,7 +2,6 @@ package com.graphicdesign.hollowknight.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,6 +21,7 @@ import com.graphicdesign.hollowknight.model.enemy.Enemy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PlayScreen extends AbstractScreen {
     private HollowKnight game;
@@ -40,8 +40,19 @@ public class PlayScreen extends AbstractScreen {
     // Physics :
     private World world;
     private Box2DDebugRenderer b2dr;
+
+
     private Knight knight;
     private Zote zote;
+
+    private boolean isBossFightActive = false;
+    private boolean triggerBossFight = false;
+    private B2WorldCreator worldCreator;
+
+    // camera shaking variables :
+    private float shakeDuration = 0;
+    private float shakeIntensity = 0;
+    private Random random = new Random();
 
     public PlayScreen(HollowKnight game) {
         this.game = game;
@@ -70,10 +81,11 @@ public class PlayScreen extends AbstractScreen {
         controller = new PlayScreenController(knight, zote);
 
         // creates floor for now
-        new B2WorldCreator(this);
+        worldCreator = new B2WorldCreator(this);
+
 
         // collision system
-        world.setContactListener(new WorldContactListener());
+        world.setContactListener(new WorldContactListener(this));
 
 
         gamePort.setUnitsPerPixel(1 / Constants.PPM);
@@ -92,10 +104,31 @@ public class PlayScreen extends AbstractScreen {
                    Constants.COLLISION_VELOCITY_CALCULATION_SPEED,
                    Constants.COLLISION_POSITION_CALCULATION_SPEED);
 
+        if (triggerBossFight && !isBossFightActive) {
+            isBossFightActive = true;
+
+            worldCreator.rightWallBody.setActive(true);
+            worldCreator.leftWallBody.setActive(true);
+
+            openToast("BOSS FIGHT begun. Die or Kill , There is NO WAY OUT!!");
+        }
+
         float delay = Constants.CAMERA_DELAY * deltaTime;
 
         camera.position.x += (knight.b2body.getPosition().x - camera.position.x) * delay;
         camera.position.y += (knight.b2body.getPosition().y - camera.position.y) * delay;
+
+        if(shakeDuration > 0) {
+            shakeDuration -= deltaTime;
+
+            float padX = (random.nextFloat() - 0.5f) * 2 * shakeIntensity;
+            float padY = (random.nextFloat() - 0.5f) * 2 * shakeIntensity;
+
+            camera.position.add(padX, padY, 0);
+
+            shakeIntensity *= 0.9f;
+        }
+
         camera.update();
         renderer.setView(camera);
         knight.update(deltaTime);
@@ -197,5 +230,13 @@ public class PlayScreen extends AbstractScreen {
         if(controller != null) {
             controller.setZote(zote);
         }
+    }
+    public void startBossFight() {
+        triggerBossFight = true;
+    }
+
+    public void shakeCamera(float duration , float strength) {
+        shakeDuration = duration;
+        shakeIntensity = strength;
     }
 }

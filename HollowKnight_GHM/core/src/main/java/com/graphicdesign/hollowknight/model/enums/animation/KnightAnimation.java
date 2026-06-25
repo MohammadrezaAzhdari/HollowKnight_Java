@@ -7,10 +7,16 @@ public enum KnightAnimation implements AnimationData {
     DASH("animations/knight/Dash.png", 12, 12, 1, PlayMode.NORMAL),
     DEATH("animations/knight/Death.png", 18, 18, 1, PlayMode.NORMAL),
     DOUBLE_JUMP("animations/knight/Double Jump.png", 8, 8, 1, PlayMode.NORMAL),
-    SLASH("animations/knight/Slash.png", 5, 5, 1, PlayMode.NORMAL),
+    SLASH("animations/knight/SlashAlt.png", 5, 5, 1, PlayMode.NORMAL),
     LANDING("animations/knight/Landing.png", 4, 4, 1, PlayMode.NORMAL),
     FALL("animations/knight/Fall.png",6, 4, 2, PlayMode.LOOP),
-    RUN_TO_IDLE("animations/knight/RunToIdle.png", 6, 4, 2, PlayMode.NORMAL)
+    RUN_TO_IDLE("animations/knight/RunToIdle.png", 6, 4, 2, PlayMode.NORMAL),
+    WALL_SLIDE("animations/knight/Wall Slide.png", 4, 4, 1, PlayMode.LOOP),
+
+    // Effects :
+    SLASH_EFFECT("animations/effects/SlashEffectAlt.png", 6,6,1,PlayMode.NORMAL),
+    DASH_EFFECT("animations/effects/Dash Effect.png",8, 8, 1, PlayMode.NORMAL),
+
     ;
     public final String path;
     public final int frameCount;

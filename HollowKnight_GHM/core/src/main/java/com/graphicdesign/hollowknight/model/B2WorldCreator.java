@@ -12,7 +12,14 @@ import com.graphicdesign.hollowknight.model.enemy.TickTick;
 import com.graphicdesign.hollowknight.model.enemy.WingedSentry;
 import com.graphicdesign.hollowknight.view.PlayScreen;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class B2WorldCreator {
+    public Body leftWallBody;
+    public Body rightWallBody;
+    public Body triggerBody;
+
 
     public B2WorldCreator(PlayScreen screen) {
         World world = screen.getWorld();
@@ -36,10 +43,11 @@ public class B2WorldCreator {
         }
         buildEnemies(map, world, screen);
         buildCliffs(map, world);
+        buildBossFightRoom(map, world);
 
     }
 
-    public void buildEnemies(TiledMap map, World world, PlayScreen screen) {
+    private void buildEnemies(TiledMap map, World world, PlayScreen screen) {
         MapLayer enemyLayer = map.getLayers().get("enemy");
         float x,y;
         for (MapObject object : enemyLayer.getObjects()) {
@@ -64,7 +72,7 @@ public class B2WorldCreator {
             }
         }
     }
-    public void buildCliffs(TiledMap map, World world){
+    private void buildCliffs(TiledMap map, World world){
         MapLayer cliffLayer = map.getLayers().get("clifs");
         BodyDef bodyDef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -89,5 +97,42 @@ public class B2WorldCreator {
         }
         shape.dispose();
     }
+    private void buildBossFightRoom(TiledMap map, World world) {
+        MapLayer layer = map.getLayers().get("boss");
 
+        BodyDef bodyDef = new BodyDef();
+        PolygonShape shape = new PolygonShape();
+
+        for(MapObject object : map.getLayers().get("boss").getObjects()) {
+
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            String name = object.getName();
+            FixtureDef fdef = new FixtureDef();
+
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+            bodyDef.position.set((rect.getX() + rect.getWidth() / 2) / Constants.PPM,
+                (rect.getY() + rect.getHeight() / 2) / Constants.PPM);
+            Body body = world.createBody(bodyDef);
+            shape.setAsBox((rect.getWidth() / 2) / Constants.PPM,
+                (rect.getHeight() / 2) / Constants.PPM);
+            fdef.shape = shape;
+
+            if("Trigger".equals(name)) {
+                fdef.isSensor = true;
+                body.createFixture(fdef).setUserData("BossTrigger");
+                fdef.filter.maskBits = Constants.KNIGHT_BIT;
+                triggerBody = body;
+            }
+            else if("LeftWall".equals(name) || "RightWall".equals(name)) {
+                fdef.filter.categoryBits = Constants.GROUND_BIT;
+                body.createFixture(fdef);
+                body.setActive(false);
+
+                if("LeftWall".equals(name)) leftWallBody = body;
+                if("RightWall".equals(name)) rightWallBody = body;
+            }
+
+        }
+        shape.dispose();
+    }
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.graphicdesign.hollowknight.model.enemy.Enemy;
 import com.graphicdesign.hollowknight.model.enums.animation.KnightAnimation;
 import com.graphicdesign.hollowknight.model.enums.KnightState;
 
@@ -17,6 +18,11 @@ public class Knight {
     public KnightAnimation animation = KnightAnimation.IDLE; // TODO : Change it to landing
     public float stateTime = 0f;
     private boolean runningRight = true;
+    private boolean isAttacking = false;
+    private boolean isDashing = false;
+    private float attackTimer = 0f;
+    private float dashTimer = 0f;
+    private float dashCooldownTimer = 0f;
     public int jumpCount = 0;
     public KnightState currentState;
     public KnightState previousState;
@@ -65,6 +71,46 @@ public class Knight {
         float y = this.b2body.getPosition().y - (height / 2f) + padY;
 
         batch.draw(keyFrame, x, y, width, height);
+        if(isAttacking) {
+            Animation<TextureRegion> attackAnimation = AssetManagerLocal.getInstance().animationMap.get(KnightAnimation.SLASH_EFFECT);
+            TextureRegion attackFrame = attackAnimation.getKeyFrame(this.stateTime);
+
+            if(runningRight && !attackFrame.isFlipX()) {
+                attackFrame.flip(true, false);
+            }
+            else if(!runningRight && attackFrame.isFlipX()) {
+                attackFrame.flip(true, false);
+            }
+
+            float effectWidth = attackFrame.getRegionWidth() / Constants.PPM;
+            float effectHeight = attackFrame.getRegionHeight() / Constants.PPM;
+
+            float offsetX = 0.5f;
+            float effectX = runningRight ? x + offsetX : x - offsetX - (effectWidth - width);
+
+            batch.draw(attackFrame, effectX, y, effectWidth, effectHeight);
+        }
+
+        if(isDashing) {
+            Animation<TextureRegion> dashAnimation = AssetManagerLocal.getInstance().animationMap.get(KnightAnimation.DASH_EFFECT);
+            TextureRegion dashFrame = dashAnimation.getKeyFrame(this.stateTime);
+
+            if(!runningRight && !dashFrame.isFlipX()) {
+                dashFrame.flip(true, false);
+            }
+            else if(runningRight && dashFrame.isFlipX()){
+                dashFrame.flip(true, false);
+            }
+
+            float effectWidth = dashFrame.getRegionWidth() / Constants.PPM;
+            float effectHeight = dashFrame.getRegionHeight() / Constants.PPM;
+
+            float effectPadX = 4.0f;
+            float effectX = runningRight ? x - effectWidth + effectPadX : x + width - effectPadX;
+            float effectPadY = 1.0f;
+
+            batch.draw(dashFrame, effectX, y - effectPadY, effectWidth, effectHeight);
+        }
     }
 
     private void correctKnightDirection(TextureRegion keyFrame) {
@@ -93,6 +139,30 @@ public class Knight {
         else {
             stateTime += deltaTime;
         }
+
+        if(isAttacking) {
+            attackTimer += deltaTime;
+            if(attackTimer >= Constants.KNIGHT_ATTACK_DURATION) {
+                isAttacking = false;
+            }
+        }
+
+        if(dashCooldownTimer > 0) {
+            dashCooldownTimer -= deltaTime;
+        }
+
+        if(isDashing) {
+            dashTimer += deltaTime;
+            float dashVelocity = runningRight ? Constants.KNIGHT_DASH_SPEED : -Constants.KNIGHT_DASH_SPEED;
+            b2body.setLinearVelocity(dashVelocity, 0);
+
+            if (dashTimer >= Constants.KNIGHT_DASH_DURATION) {
+                isDashing = false;
+                b2body.setGravityScale(1f);
+                b2body.setLinearVelocity(0, 0);
+            }
+        }
+
 
         switch (currentState) {
             case IDLE :
@@ -128,12 +198,27 @@ public class Knight {
             case DOUBLE_JUMPING:
             {
                 animation = KnightAnimation.DOUBLE_JUMP;
+                break;
+            }
+            case ATTACKING:
+            {
+                animation = KnightAnimation.SLASH;
+                break;
+            }
+            case DASHING:
+            {
+                animation = KnightAnimation.DASH;
+                break;
             }
         }
         previousState = currentState;
     }
 
     private KnightState getState() {
+
+        if(isDashing) return KnightState.DASHING;
+        if(isAttacking) return KnightState.ATTACKING;
+
         Vector2 velocity = b2body.getLinearVelocity();
         Animation<TextureRegion> currentAnimation = AssetManagerLocal.getInstance().animationMap.get(animation);
 
@@ -165,6 +250,45 @@ public class Knight {
 
             jumpCount = 0;
             return KnightState.IDLE;
+        }
+    }
+
+    public void attack() {
+        if(!isAttacking) {
+            isAttacking = true;
+            attackTimer = 0f;
+            b2body.setLinearVelocity(0,0);
+
+            Vector2 pos = b2body.getPosition();
+
+            // -> Building required rectangle :
+            float lowerX = runningRight ? pos.x : pos.x - Constants.KNIGHT_ATTACK_LENGTH;
+            float upperX = runningRight ? pos.x + Constants.KNIGHT_ATTACK_LENGTH : pos.x;
+            float lowerY = pos.y - (Constants.KNIGHT_ATTACK_HEIGHT / 2f);
+            float upperY = pos.y + (Constants.KNIGHT_ATTACK_HEIGHT / 2f);
+
+            world.QueryAABB(new QueryCallback() {
+                @Override
+                public boolean reportFixture(Fixture fixture) {
+                    if (fixture.getFilterData().categoryBits == Constants.ENEMY_BIT) {
+                        ((Enemy) fixture.getUserData()).takeDamage(20);
+                    }
+                    return true;
+                }
+            }, lowerX, lowerY, upperX, upperY);
+        }
+    }
+
+    public void dash() {
+        if(!isDashing && dashCooldownTimer <= 0) {
+            isDashing = true;
+            dashTimer = 0f;
+            dashCooldownTimer = Constants.KNIGHT_DASH_COOLDOWN;
+
+            b2body.setGravityScale(0f);
+
+            float dashVelocity = runningRight ? Constants.KNIGHT_DASH_SPEED : -Constants.KNIGHT_DASH_SPEED;
+            b2body.setLinearVelocity(dashVelocity, 0);
         }
     }
 }

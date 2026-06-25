@@ -10,6 +10,12 @@ public class Constants {
     public static final float JUMP = 20;
     public static final int MAX_CHARM_CAPACITY = 3;
     public static final float KNIGHT_FRICTION = 0f;
+    public static final float KNIGHT_ATTACK_LENGTH = 1.5f;
+    public static final float KNIGHT_ATTACK_HEIGHT = 1f;
+    public static final float KNIGHT_ATTACK_DURATION = 0.2f;
+    public static final float KNIGHT_DASH_SPEED = 25f;
+    public static final float KNIGHT_DASH_DURATION = 0.25f;
+    public static final float KNIGHT_DASH_COOLDOWN = 1.0f;
 
     // world logic and physic :
     public static final float TIME_SPEED = 1/60f;

@@ -7,5 +7,8 @@ public enum KnightState {
     JUMPING,
     DOUBLE_JUMPING,
     LANDING,
-    RUN_TO_IDLE
+    RUN_TO_IDLE,
+    ATTACKING,
+    DASHING,
+    SLIDING
 }

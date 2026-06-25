@@ -37,6 +37,9 @@ public class AssetManagerLocal {
         for (ZoteAnimation type : ZoteAnimation.values()) {
             loadAnimation(type);
         }
+        for(FalseKnightAnimation type : FalseKnightAnimation.values()) {
+            loadAnimation(type);
+        }
     }
 
     public static AssetManagerLocal getInstance() {

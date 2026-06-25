@@ -3,8 +3,14 @@ package com.graphicdesign.hollowknight.model;
 import com.badlogic.gdx.physics.box2d.*;
 import com.graphicdesign.hollowknight.model.enemy.Enemy;
 import com.graphicdesign.hollowknight.model.enemy.GroundEnemy;
+import com.graphicdesign.hollowknight.view.PlayScreen;
 
 public class WorldContactListener implements ContactListener {
+
+    private PlayScreen screen;
+    public WorldContactListener(PlayScreen screen) {
+        this.screen = screen;
+    }
 
     @Override
     public void beginContact(Contact contact) {
@@ -28,6 +34,11 @@ public class WorldContactListener implements ContactListener {
                 }
             }
         }
+
+        boolean isTriggerA = "BossTrigger".equals(fix1.getUserData());
+        boolean isTriggerB = "BossTrigger".equals(fix2.getUserData());
+
+        if (isTriggerA || isTriggerB) {screen.startBossFight();}
 
     }
 

@@ -61,6 +61,12 @@ public class PlayScreenController extends InputAdapter {
                 }
                 break;
             }
+            case Input.Keys.X:
+                knight.attack();
+                return true;
+            case Input.Keys.C:
+                knight.dash();
+                return true;
         }
         return false;
     }
