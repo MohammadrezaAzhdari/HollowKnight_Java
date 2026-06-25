@@ -12,6 +12,10 @@ public enum KnightAnimation implements AnimationData {
     FALL("animations/knight/Fall.png",6, 4, 2, PlayMode.LOOP),
     RUN_TO_IDLE("animations/knight/RunToIdle.png", 6, 4, 2, PlayMode.NORMAL),
     WALL_SLIDE("animations/knight/Wall Slide.png", 4, 4, 1, PlayMode.LOOP),
+    FOCUS_START("animations/knight/Focus Start.png", 3, 3, 1, PlayMode.NORMAL),
+    FOCUS("animations/knight/Focus.png", 4, 4, 1, PlayMode.LOOP),
+    FOCUS_GET("animations/knight/Focus Get.png", 6, 6, 1, PlayMode.NORMAL),
+    FOCUS_END("animations/knight/Focus End.png", 3, 3, 1, PlayMode.NORMAL),
 
     // Effects :
     SLASH_EFFECT("animations/effects/SlashEffectAlt.png", 6,6,1,PlayMode.NORMAL),

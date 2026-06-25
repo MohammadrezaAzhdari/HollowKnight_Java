@@ -120,6 +120,7 @@ public class B2WorldCreator {
             if("Trigger".equals(name)) {
                 fdef.isSensor = true;
                 body.createFixture(fdef).setUserData("BossTrigger");
+                fdef.filter.categoryBits = Constants.DESTROYABLE_BIT;
                 fdef.filter.maskBits = Constants.KNIGHT_BIT;
                 triggerBody = body;
             }

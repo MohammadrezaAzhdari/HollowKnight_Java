@@ -67,6 +67,9 @@ public class PlayScreenController extends InputAdapter {
             case Input.Keys.C:
                 knight.dash();
                 return true;
+            case Input.Keys.A:
+                knight.startFocus();
+                return true;
         }
         return false;
     }
@@ -80,12 +83,32 @@ public class PlayScreenController extends InputAdapter {
             case Input.Keys.RIGHT:
                 rightPressed = false;
                 return true;
+            case Input.Keys.A:
+                knight.stopFocus();
+                return true;
         }
         return false;
     }
 
     public void update(float deltaTime) {
         Vector2 velocity = knight.b2body.getLinearVelocity();
+
+        if (knight.isFocusing || knight.isFocusEnding) {
+            resetMovement();
+            return;
+        }
+
+        knight.isSliding = false;
+        if(velocity.y < 0) {
+            if(leftPressed && knight.isTouchingLeftWall) {
+                knight.isSliding = true;
+                knight.b2body.setLinearVelocity(velocity.x, Constants.KNIGHT_CLAW_SPEED);
+            }
+            else if(rightPressed && knight.isTouchingRightWall) {
+                knight.isSliding = true;
+                knight.b2body.setLinearVelocity(velocity.x, Constants.KNIGHT_CLAW_SPEED);
+            }
+        }
 
         if (leftPressed && velocity.x >= -Constants.MAX_RUN) {
             knight.b2body.applyLinearImpulse(new Vector2(-Constants.RUN, 0), knight.b2body.getWorldCenter(), true);

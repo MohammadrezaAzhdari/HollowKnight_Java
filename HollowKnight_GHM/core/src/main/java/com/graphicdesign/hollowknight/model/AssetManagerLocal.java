@@ -40,6 +40,9 @@ public class AssetManagerLocal {
         for(FalseKnightAnimation type : FalseKnightAnimation.values()) {
             loadAnimation(type);
         }
+        for (HudAnimation type : HudAnimation.values()) {
+            loadAnimation(type);
+        }
     }
 
     public static AssetManagerLocal getInstance() {

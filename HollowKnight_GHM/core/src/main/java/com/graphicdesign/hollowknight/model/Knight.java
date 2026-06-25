@@ -27,6 +27,18 @@ public class Knight {
     public KnightState currentState;
     public KnightState previousState;
     public List<String> charms = new ArrayList<>();
+    public boolean isTouchingLeftWall = false;
+    public boolean isTouchingRightWall = false;
+    public boolean isSliding = false;
+    public int health = Constants.KNIGHT_HEALTH_COUNT;
+    private boolean isInvincible = false;
+    private float invincibleTimer = 0f;
+    public boolean isFocusing = false;
+    public boolean isFocusEnding = false;
+    private float focusTimer = 0f;
+    private boolean hasHealed = false;
+    public int soulAmount = 99;
+
 
 
     public Knight (World world, Vector2 spawn) {
@@ -54,9 +66,37 @@ public class Knight {
 
         b2body.createFixture(fdef).setUserData(this);
 
+        // Creating sensor for Mantis Claw :
+        float sensorPadY = 40 / Constants.PPM;
+        float sensorPadX = 20 / Constants.PPM;
+        EdgeShape leftSensor = new EdgeShape();
+        leftSensor.set(new Vector2( - (Constants.KNIGHT_B2BODY_WIDTH / 2f) / Constants.PPM - sensorPadX , - ((Constants.KNIGHT_ATTACK_HEIGHT)/ Constants.PPM) / 2f + sensorPadY),
+                       new Vector2( - (Constants.KNIGHT_B2BODY_WIDTH / 2f) / Constants.PPM - sensorPadX,  ((Constants.KNIGHT_ATTACK_HEIGHT)/ Constants.PPM) / 2f - sensorPadY));
+        FixtureDef fdefLeft = new FixtureDef();
+        fdefLeft.shape = leftSensor;
+        fdefLeft.isSensor = true;
+        fdefLeft.filter.categoryBits = Constants.KNIGHT_BIT;
+        fdefLeft.filter.maskBits = Constants.GROUND_BIT;
+        b2body.createFixture(fdefLeft).setUserData("leftSensor");
+
+        EdgeShape rightSensor = new EdgeShape();
+        rightSensor.set(new Vector2((Constants.KNIGHT_B2BODY_WIDTH / 2f) / Constants.PPM + sensorPadX, -((Constants.KNIGHT_ATTACK_HEIGHT)/ Constants.PPM) / 2f + sensorPadY),
+                        new Vector2((Constants.KNIGHT_B2BODY_WIDTH / 2f) / Constants.PPM + sensorPadX, ((Constants.KNIGHT_ATTACK_HEIGHT)/ Constants.PPM) / 2f - sensorPadY));
+        FixtureDef fdefRight = new FixtureDef();
+        fdefRight.shape = rightSensor;
+        fdefRight.isSensor = true;
+        fdefRight.filter.categoryBits = Constants.KNIGHT_BIT;
+        fdefLeft.filter.maskBits = Constants.GROUND_BIT;
+        b2body.createFixture(fdefRight).setUserData("rightSensor");
+
+        leftSensor.dispose();
+        rightSensor.dispose();
         shape.dispose();
     }
     public void draw(SpriteBatch batch) {
+
+        if (isInvincible && (stateTime * 5) % 2 < 1) {return;}
+
         Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(this.animation);
         TextureRegion keyFrame = animation.getKeyFrame(this.stateTime);
 
@@ -131,6 +171,28 @@ public class Knight {
     }
 
     public void update(float deltaTime) {
+
+        if(isFocusing) {
+            focusTimer += deltaTime;
+
+            float focusTime = charms.contains("Quick Focus") ? Constants.QUICK_FOCUS : Constants.KNIGHT_FOCUS_TIME;
+
+            if(focusTimer >= focusTime && !hasHealed) {
+                if(health < Constants.KNIGHT_HEALTH_COUNT) {
+                    health++;
+                    soulAmount -= Constants.SOUL_PER_HEAL;
+                }
+                hasHealed = true;
+
+            }
+        }
+
+        if(isInvincible) {
+            invincibleTimer -= deltaTime;
+            if(invincibleTimer <= 0) {
+                isInvincible = false;
+            }
+        }
         currentState = getState();
 
         if(currentState != previousState) {
@@ -210,6 +272,31 @@ public class Knight {
                 animation = KnightAnimation.DASH;
                 break;
             }
+            case SLIDING:
+            {
+                animation = KnightAnimation.WALL_SLIDE;
+                break;
+            }
+            case FOCUS_START:
+            {
+                animation = KnightAnimation.FOCUS_START;
+                break;
+            }
+            case FOCUS:
+            {
+                animation = KnightAnimation.FOCUS;
+                break;
+            }
+            case FOCUS_GET:
+            {
+                animation = KnightAnimation.FOCUS_GET;
+                break;
+            }
+            case FOCUS_END:
+            {
+                animation = KnightAnimation.FOCUS_END;
+                break;
+            }
         }
         previousState = currentState;
     }
@@ -218,9 +305,40 @@ public class Knight {
 
         if(isDashing) return KnightState.DASHING;
         if(isAttacking) return KnightState.ATTACKING;
+        if(isSliding) return  KnightState.SLIDING;
+
+        Animation<TextureRegion> currentAnimation = AssetManagerLocal.getInstance().animationMap.get(animation);
+
+        if(isFocusEnding) {
+            if(!currentAnimation.isAnimationFinished(stateTime) && currentState == KnightState.FOCUS_END) {
+                return KnightState.FOCUS_END;
+            }
+            else {
+                isFocusEnding = false;
+            }
+        }
+        else if(isFocusing) {
+
+            float focusTime = charms.contains("Quick Focus") ? Constants.QUICK_FOCUS : Constants.KNIGHT_FOCUS_TIME;
+
+            if(focusTimer >= focusTime) {
+                if(!currentAnimation.isAnimationFinished(stateTime) && currentState == KnightState.FOCUS_GET) {
+                    return KnightState.FOCUS_GET;
+                }
+                else if(currentAnimation.isAnimationFinished(stateTime) && currentState == KnightState.FOCUS_GET) {
+                    focusTimer = 0f;
+                    hasHealed = false;
+                    return KnightState.FOCUS;
+                }
+                return KnightState.FOCUS_GET;
+            }
+            if(currentState == KnightState.FOCUS_START && !currentAnimation.isAnimationFinished(stateTime)) {
+                return KnightState.FOCUS_START;
+            }
+            return KnightState.FOCUS;
+        }
 
         Vector2 velocity = b2body.getLinearVelocity();
-        Animation<TextureRegion> currentAnimation = AssetManagerLocal.getInstance().animationMap.get(animation);
 
         if(currentState == KnightState.LANDING) {
             if(!currentAnimation.isAnimationFinished(stateTime)) return KnightState.LANDING;
@@ -272,6 +390,11 @@ public class Knight {
                 public boolean reportFixture(Fixture fixture) {
                     if (fixture.getFilterData().categoryBits == Constants.ENEMY_BIT) {
                         ((Enemy) fixture.getUserData()).takeDamage(20);
+                        soulAmount = Math.min(soulAmount + Constants.SOUL_PER_HIT, Constants.MAX_SOUL);
+
+                        if(charms.contains("Soul Catcher")) {
+                            soulAmount = Math.min(soulAmount + Constants.SOUL_CATCHER, Constants.MAX_SOUL);
+                        }
                     }
                     return true;
                 }
@@ -283,12 +406,49 @@ public class Knight {
         if(!isDashing && dashCooldownTimer <= 0) {
             isDashing = true;
             dashTimer = 0f;
-            dashCooldownTimer = Constants.KNIGHT_DASH_COOLDOWN;
+            dashCooldownTimer = charms.contains("Dash Master") ? Constants.DASH_MASTER : Constants.KNIGHT_DASH_COOLDOWN;
 
             b2body.setGravityScale(0f);
 
             float dashVelocity = runningRight ? Constants.KNIGHT_DASH_SPEED : -Constants.KNIGHT_DASH_SPEED;
             b2body.setLinearVelocity(dashVelocity, 0);
+        }
+    }
+
+    public void takeDamage(int amount) {
+        if(isInvincible) return;
+        isFocusing = false;
+        isFocusEnding = false;
+
+        health -= amount;
+
+        if(health <= 0) {
+            // TODO -> handle dying and respawning
+        }
+        else {
+            isInvincible = true;
+            invincibleTimer = Constants.KNIGHT_INVINCIBLE_TIMER;
+        }
+    }
+
+    public void stopFocus() {
+        if(isFocusing) {
+            isFocusing = false;
+            isFocusEnding = true;
+        }
+    }
+
+    public void startFocus() {
+
+        if (b2body.getLinearVelocity().y == 0 && !isAttacking && !isDashing && !isFocusing) {
+            if(soulAmount >= Constants.SOUL_PER_HEAL && health < Constants.KNIGHT_HEALTH_COUNT)
+            {
+                isFocusing = true;
+                isFocusEnding = false;
+                hasHealed = false;
+                focusTimer = 0f;
+                b2body.setLinearVelocity(0, 0);
+            }
         }
     }
 }

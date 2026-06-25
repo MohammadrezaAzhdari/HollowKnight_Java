@@ -10,5 +10,9 @@ public enum KnightState {
     RUN_TO_IDLE,
     ATTACKING,
     DASHING,
-    SLIDING
+    SLIDING,
+    FOCUS_START,
+    FOCUS,
+    FOCUS_GET,
+    FOCUS_END
 }

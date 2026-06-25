@@ -1,7 +1,6 @@
 package com.graphicdesign.hollowknight.model;
 
 import com.badlogic.gdx.physics.box2d.*;
-import com.graphicdesign.hollowknight.model.enemy.Enemy;
 import com.graphicdesign.hollowknight.model.enemy.GroundEnemy;
 import com.graphicdesign.hollowknight.view.PlayScreen;
 
@@ -35,10 +34,26 @@ public class WorldContactListener implements ContactListener {
             }
         }
 
+        // Boss Fight Logic :
+
         boolean isTriggerA = "BossTrigger".equals(fix1.getUserData());
         boolean isTriggerB = "BossTrigger".equals(fix2.getUserData());
 
         if (isTriggerA || isTriggerB) {screen.startBossFight();}
+
+        // Mantis Claw logic :
+
+        if("leftSensor".equals(fix1.getUserData()) || "leftSensor".equals(fix2.getUserData())) {
+            screen.getKnight().isTouchingLeftWall = true;
+        }
+        if("rightSensor".equals(fix1.getUserData()) || "rightSensor".equals(fix2.getUserData())) {
+            screen.getKnight().isTouchingRightWall = true;
+        }
+
+        if(collision == (Constants.KNIGHT_BIT | Constants.ENEMY_BIT))
+        {
+            screen.getKnight().takeDamage(1);
+        }
 
     }
 
@@ -47,6 +62,12 @@ public class WorldContactListener implements ContactListener {
         Fixture fix1 = contact.getFixtureA();
         Fixture fix2 = contact.getFixtureB();
 
+        if("leftSensor".equals(fix1.getUserData()) || "leftSensor".equals(fix2.getUserData())) {
+            screen.getKnight().isTouchingLeftWall = false;
+        }
+        if("rightSensor".equals(fix1.getUserData()) || "rightSensor".equals(fix2.getUserData())) {
+            screen.getKnight().isTouchingRightWall = false;
+        }
     }
 
     @Override

@@ -15,7 +15,14 @@ public class Constants {
     public static final float KNIGHT_ATTACK_DURATION = 0.2f;
     public static final float KNIGHT_DASH_SPEED = 25f;
     public static final float KNIGHT_DASH_DURATION = 0.25f;
-    public static final float KNIGHT_DASH_COOLDOWN = 1.0f;
+    public static final float KNIGHT_DASH_COOLDOWN = 2.0f;
+    public static final float KNIGHT_CLAW_SPEED = -1.0f;
+    public static final int KNIGHT_HEALTH_COUNT = 6;
+    public static final float KNIGHT_INVINCIBLE_TIMER = 1.0f;
+    public static final int MAX_SOUL = 99;
+    public static final int SOUL_PER_HIT = 11;
+    public static final int SOUL_PER_HEAL = 33;
+    public static final float KNIGHT_FOCUS_TIME = 1.5f;
 
     // world logic and physic :
     public static final float TIME_SPEED = 1/60f;
@@ -23,7 +30,7 @@ public class Constants {
     public static final int COLLISION_POSITION_CALCULATION_SPEED = 2;
     public static final float GRAVITY = 40;
     public static final float PPM = 50;             // -> pixel per meter
-    public static final float FRAME_DURATION = 1/30f;
+    public static final float FRAME_DURATION = 1/15f;
 
     // Collision bits :
     public static final short GROUND_BIT = 1;
@@ -83,5 +90,11 @@ public class Constants {
     public static final float ZOTE_WIDTH = 30f;
     public static final float ZOTE_HEIGHT = 80f;
     public static final float ZOTE_DIALOG_RADIUS = 300f / PPM;
+
+
+    // Charm constants :
+    public static final int SOUL_CATCHER = 11;
+    public static final float DASH_MASTER = KNIGHT_DASH_COOLDOWN * 0.5f;
+    public static final float QUICK_FOCUS = KNIGHT_FOCUS_TIME * 0.5f;
 
 }

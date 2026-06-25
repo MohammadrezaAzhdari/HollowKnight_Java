@@ -18,6 +18,7 @@ import com.graphicdesign.hollowknight.HollowKnight;
 import com.graphicdesign.hollowknight.controller.PlayScreenController;
 import com.graphicdesign.hollowknight.model.*;
 import com.graphicdesign.hollowknight.model.enemy.Enemy;
+import com.graphicdesign.hollowknight.model.hud.Hud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,6 @@ public class PlayScreen extends AbstractScreen {
 
         camera = new OrthographicCamera();
         gamePort = new ScreenViewport(camera);
-        hud = new Hud(game.batch);
 
         // Map:
         mapLoader = new TmxMapLoader();
@@ -75,6 +75,7 @@ public class PlayScreen extends AbstractScreen {
 
         Vector2 spawn = findPlayerSpawnPoint();
         knight = new Knight(world, spawn);
+        hud = new Hud(game.batch, knight);
 
         camera.position.set(spawn,0);
 
@@ -157,7 +158,7 @@ public class PlayScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
-        //b2dr.render(world, camera.combined);
+        b2dr.render(world, camera.combined);
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
