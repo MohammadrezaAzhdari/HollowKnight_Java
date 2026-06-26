@@ -10,6 +10,8 @@ public abstract class GroundEnemy extends Enemy{
     }
 
     public void reverseDirection() {
-        walkRight = !walkRight;
+        if (knockBackTimer <= 0 && !isDead) {
+            walkRight = !walkRight;
+        }
     }
 }

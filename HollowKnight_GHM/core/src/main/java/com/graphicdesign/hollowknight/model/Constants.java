@@ -10,9 +10,11 @@ public class Constants {
     public static final float JUMP = 20;
     public static final int MAX_CHARM_CAPACITY = 3;
     public static final float KNIGHT_FRICTION = 0f;
-    public static final float KNIGHT_ATTACK_LENGTH = 1.5f;
-    public static final float KNIGHT_ATTACK_HEIGHT = 1f;
+    public static final float KNIGHT_ATTACK_LENGTH = 3f;
+    public static final float KNIGHT_ATTACK_HEIGHT = 3f;
+    public static final int KNIGHT_ATTACK_DAMAGE = 20;
     public static final float KNIGHT_ATTACK_DURATION = 0.2f;
+    public static final float KNIGHT_ATTACK_COOLDOWN = 0.6f;
     public static final float KNIGHT_DASH_SPEED = 25f;
     public static final float KNIGHT_DASH_DURATION = 0.25f;
     public static final float KNIGHT_DASH_COOLDOWN = 2.0f;
@@ -31,6 +33,9 @@ public class Constants {
     public static final float GRAVITY = 40;
     public static final float PPM = 50;             // -> pixel per meter
     public static final float FRAME_DURATION = 1/15f;
+    public static final float KNOCKBACK_TIMER = 0.25f;
+    public static final float KNOCKBACK_FORCE_X = 6f;
+    public static final float KNOCKBACK_FORCE_Y = 10f;
 
     // Collision bits :
     public static final short GROUND_BIT = 1;
@@ -39,6 +44,7 @@ public class Constants {
     public static final short KNIGHT_BIT = 8;
     public static final short NPC_BIT = 16;
     public static final short CLIFF_BIT = 32;
+    public static final short CORPSE_BIT = 64;
 
     // camera :
     public static final float CAMERA_DELAY = 5f; // lower = more delay.
@@ -96,5 +102,23 @@ public class Constants {
     public static final int SOUL_CATCHER = 11;
     public static final float DASH_MASTER = KNIGHT_DASH_COOLDOWN * 0.5f;
     public static final float QUICK_FOCUS = KNIGHT_FOCUS_TIME * 0.5f;
+    public static final int UNBREAKABLE_STRENGTH = KNIGHT_ATTACK_DAMAGE * 3;
+    public static final float HEAVY_BLOW_X = KNOCKBACK_FORCE_X * 2;
+    public static final float HEAVY_BLOW_Y = KNOCKBACK_FORCE_Y * 2;
+    public static final float HEAVY_BLOW_KNOCKBACK_TIMER = KNOCKBACK_TIMER * 2;
+    public static final float QUICK_SLASH = KNIGHT_ATTACK_COOLDOWN / 3f;
+
+    // Husk Horned Head Constants :
+    public static final float HUSK_WIDTH = 50f;
+    public static final float HUSK_HEIGHT = 75f;
+    public static final float HUSK_SIGHT_X_RANGE = 15f;
+    public static final float HUSK_SIGHT_Y_RANGE = 30f;
+    public static final float HUSK_IDLE_TIME = 4f;
+    public static final float HUSK_WALK_SPEED = 2f;
+    public static final float HUSK_WALK_TIME = 8f;
+    public static final float HUSK_ANTICIPATION_TIME = 0.8f;
+    public static final float HUSK_ATTACK_SPEED = 10f;
+    public static final float HUSK_COOLDOWN_TIME = 0.8f;
+
 
 }

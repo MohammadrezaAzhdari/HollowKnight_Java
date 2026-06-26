@@ -24,6 +24,7 @@ public class CrystalGuardian extends GroundEnemy{
         this.currentState = CrystalGuardianState.IDLE;
         this.previousState = CrystalGuardianState.IDLE;
         this.stateTime = 0f;
+        health = 140;
     }
 
     @Override
@@ -52,8 +53,19 @@ public class CrystalGuardian extends GroundEnemy{
 
     @Override
     public void update(float deltaTime) {
-        if(destroyed)return;
         stateTime += deltaTime;
+
+
+        if (isDead) {
+            currentAnimation = CrystalGuardianAnimation.DEATH;
+
+            return;
+        }
+
+        if (knockBackTimer > 0) {
+            knockBackTimer -= deltaTime;
+            return;
+        }
 
         switch (currentState) {
             case IDLE:

@@ -53,6 +53,7 @@ public class WorldContactListener implements ContactListener {
         if(collision == (Constants.KNIGHT_BIT | Constants.ENEMY_BIT))
         {
             screen.getKnight().takeDamage(1);
+            screen.shakeCamera(0.5f, 0.8f);
         }
 
     }

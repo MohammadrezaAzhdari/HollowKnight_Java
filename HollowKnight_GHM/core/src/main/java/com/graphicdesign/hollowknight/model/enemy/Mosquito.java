@@ -35,6 +35,7 @@ public class Mosquito extends FlyingEnemy{
         attackDirection = new Vector2();
 
         currentAnimation = MosquitoAnimation.IDLE;
+        health = 100;
 
     }
 
@@ -62,9 +63,21 @@ public class Mosquito extends FlyingEnemy{
 
     @Override
     public void update(float deltaTime) {
-        if(destroyed) return;
 
         stateTime += deltaTime;
+
+
+        if (isDead) {
+            changeState(MosquitoState.DEAD);
+            currentAnimation = MosquitoAnimation.DEATH;
+            return;
+        }
+
+        if (knockBackTimer > 0) {
+            knockBackTimer -= deltaTime;
+            return;
+        }
+
         attackCooldown += deltaTime;
 
         Vector2 myPosition = b2body.getPosition();
@@ -120,31 +133,11 @@ public class Mosquito extends FlyingEnemy{
             }
         }
         switch (currentState) {
-            case IDLE:
-            {
-                currentAnimation = MosquitoAnimation.IDLE;
-                break;
-            }
-            case ATTACKING:
-            {
-                currentAnimation = MosquitoAnimation.ATTACK;
-                break;
-            }
-            case ANTICIPATING:
-            {
-                currentAnimation = MosquitoAnimation.ANTICIPATE;
-                break;
-            }
-            case DEAD:
-            {
-                currentAnimation = MosquitoAnimation.DEATH;
-                break;
-            }
-            case CHASING:
-            {
-                currentAnimation = MosquitoAnimation.IDLE;
-                break;
-            }
+            case IDLE: {currentAnimation = MosquitoAnimation.IDLE;break;}
+            case ATTACKING: {currentAnimation = MosquitoAnimation.ATTACK;break;}
+            case ANTICIPATING: {currentAnimation = MosquitoAnimation.ANTICIPATE;break;}
+            case DEAD: {currentAnimation = MosquitoAnimation.DEATH;break;}
+            case CHASING: {currentAnimation = MosquitoAnimation.IDLE;break;}
         }
     }
 

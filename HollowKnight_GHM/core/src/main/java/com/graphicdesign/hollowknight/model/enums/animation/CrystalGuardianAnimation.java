@@ -8,7 +8,7 @@ public enum CrystalGuardianAnimation implements AnimationData{
     RUN("animations/crystalized/Run.png", 6, 6, 1, Animation.PlayMode.LOOP),
     SHOOT("animations/crystalized/Shoot.png", 7, 7, 1, Animation.PlayMode.NORMAL),
     TURN("animations/crystalized/Turn.png", 3, 3, 1, Animation.PlayMode.NORMAL),
-    //DEATH?
+    DEATH("animations/crystalized/Death.png", 6, 4, 2, Animation.PlayMode.NORMAL)
     ;
     public final String path;
     public final int frameCount;

@@ -18,6 +18,7 @@ public class TickTick extends GroundEnemy{
         super(world, x, y);
         this.currentAnimation = TickTickAnimation.WALK;
         stateTime = 0f;
+        health = 100;
     }
 
     @Override
@@ -50,17 +51,22 @@ public class TickTick extends GroundEnemy{
 
     @Override
     public void update(float deltaTime) {
-        if(setToDestroy && !destroyed) {
-            world.destroyBody(b2body);
-            destroyed = true;
-            stateTime = 0;
-            currentAnimation = TickTickAnimation.DEATH_AIR;
+        if(isDead) {
+            currentAnimation = TickTickAnimation.DEATH;
+            Animation<TextureRegion> anim = AssetManagerLocal.getInstance().animationMap.get(currentAnimation);
+            if (!anim.isAnimationFinished(stateTime)) {
+                stateTime += deltaTime;
+            }
         }
-        else if(!destroyed) {
-            float velocity = walkRight ? -Constants.TICKTICK_SPEED : Constants.TICKTICK_SPEED;
-            b2body.setLinearVelocity(velocity, b2body.getLinearVelocity().y);
+        else {
+            if (knockBackTimer > 0) {
+                knockBackTimer -= deltaTime;
+            } else {
+                float velocity = walkRight ? -Constants.TICKTICK_SPEED : Constants.TICKTICK_SPEED;
+                b2body.setLinearVelocity(velocity, b2body.getLinearVelocity().y);
+            }
+            stateTime += deltaTime;
         }
-        stateTime += deltaTime;
     }
 
     @Override

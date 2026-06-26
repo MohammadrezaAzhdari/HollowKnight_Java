@@ -6,10 +6,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
-import com.graphicdesign.hollowknight.model.enemy.CrystalGuardian;
-import com.graphicdesign.hollowknight.model.enemy.Mosquito;
-import com.graphicdesign.hollowknight.model.enemy.TickTick;
-import com.graphicdesign.hollowknight.model.enemy.WingedSentry;
+import com.graphicdesign.hollowknight.model.enemy.*;
 import com.graphicdesign.hollowknight.view.PlayScreen;
 
 import java.lang.reflect.Array;
@@ -69,6 +66,9 @@ public class B2WorldCreator {
             }
             if(type.equals("Zote")) {
                 screen.setZote(new Zote(world, x, y, screen.getKnight()));
+            }
+            if(type.equals("HuskHornedHead")) {
+                screen.addEnemy(new HuskHornedHead(world, x, y, screen.getKnight()));
             }
         }
     }

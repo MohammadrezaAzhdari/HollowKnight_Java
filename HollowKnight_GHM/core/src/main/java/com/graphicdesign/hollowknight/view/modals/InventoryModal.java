@@ -22,9 +22,10 @@ public class InventoryModal extends Modal{
     private final String[][] allCharms = {
         {"Unbreakable Strength", "Increases strength of Nail and damage to enemies", "UnbreakableStrength.png"},
         {"Soul Catcher", "Increases the amount of SOUL gained", "SoulCatcher.png"},
-        {"Quick slash", "Increases attack speed and decreases its cooldown", "QuickSlash.png"},
+        {"Quick Slash", "Increases attack speed and decreases its cooldown", "QuickSlash.png"},
         {"Quick Focus", "Increases FOCUS speed", "QuickFocus.png"},
-        {"Dash Master", "Decreases DASH cooldown", "Dashmaster.png"}
+        {"Dash Master", "Decreases DASH cooldown", "Dashmaster.png"},
+        {"Heavy Blow", "Increases Knockback strength", "HeavyBlow.png"},
     };
 
     public InventoryModal(Knight knight) {

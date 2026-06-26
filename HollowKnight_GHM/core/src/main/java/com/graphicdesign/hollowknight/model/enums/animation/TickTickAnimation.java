@@ -4,8 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 public enum TickTickAnimation implements AnimationData {
     WALK("animations/ticktick/Walk.png", 4, 4, 1, PlayMode.LOOP),
     TURN("animations/ticktick/Turn.png", 2, 2, 1, PlayMode.NORMAL),
-    DEATH_AIR("animations/ticktick/Death Air.png", 4, 4, 1, PlayMode.NORMAL),
-    DEATH_LAND("animations/ticktick/Death Land.png", 3, 3, 1, PlayMode.NORMAL),
+    DEATH("animations/ticktick/Death.png", 7, 4, 2, PlayMode.NORMAL),
     ;
     public final String path;
     public final int frameCount;

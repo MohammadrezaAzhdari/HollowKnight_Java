@@ -38,6 +38,7 @@ public class Knight {
     private float focusTimer = 0f;
     private boolean hasHealed = false;
     public int soulAmount = 99;
+    private float attackCooldownTimer = 0f;
 
 
 
@@ -206,9 +207,13 @@ public class Knight {
             attackTimer += deltaTime;
             if(attackTimer >= Constants.KNIGHT_ATTACK_DURATION) {
                 isAttacking = false;
+                attackCooldownTimer = charms.contains("Quick Slash") ? Constants.QUICK_SLASH : Constants.KNIGHT_ATTACK_COOLDOWN;
             }
         }
 
+        if(attackCooldownTimer > 0) {
+            attackCooldownTimer -= deltaTime;
+        }
         if(dashCooldownTimer > 0) {
             dashCooldownTimer -= deltaTime;
         }
@@ -372,7 +377,7 @@ public class Knight {
     }
 
     public void attack() {
-        if(!isAttacking) {
+        if(!isAttacking && attackCooldownTimer <= 0) {
             isAttacking = true;
             attackTimer = 0f;
             b2body.setLinearVelocity(0,0);
@@ -389,7 +394,8 @@ public class Knight {
                 @Override
                 public boolean reportFixture(Fixture fixture) {
                     if (fixture.getFilterData().categoryBits == Constants.ENEMY_BIT) {
-                        ((Enemy) fixture.getUserData()).takeDamage(20);
+                        int damage = charms.contains("Unbreakable Strength") ? Constants.UNBREAKABLE_STRENGTH : Constants.KNIGHT_ATTACK_DAMAGE;
+                        ((Enemy) fixture.getUserData()).takeDamage(damage, runningRight, charms.contains("Heavy Blow"));
                         soulAmount = Math.min(soulAmount + Constants.SOUL_PER_HIT, Constants.MAX_SOUL);
 
                         if(charms.contains("Soul Catcher")) {

@@ -10,11 +10,13 @@
     import com.graphicdesign.hollowknight.model.AssetManagerLocal;
     import com.graphicdesign.hollowknight.model.Constants;
     import com.graphicdesign.hollowknight.model.Knight;
+    import com.graphicdesign.hollowknight.model.enums.MosquitoState;
+    import com.graphicdesign.hollowknight.model.enums.animation.MosquitoAnimation;
     import com.graphicdesign.hollowknight.model.enums.animation.WingedSentryAnimation;
 
     public class WingedSentry extends FlyingEnemy{
 
-        private enum State { IDLE, ANTICIPATION, CHARGING }
+        private enum State { IDLE, ANTICIPATION, CHARGING , DEAD}
 
         private State state;
         private WingedSentryAnimation currentAnim;
@@ -64,6 +66,17 @@
         @Override
         public void update(float delta) {
             stateTime += delta;
+//
+//            if (isDead) {
+//                changeState(state.DEAD);
+//                currentAnim = WingedSentryAnimation.DEATH;
+//                return;
+//            }
+//
+//            if (knockBackTimer > 0) {
+//                knockBackTimer -= deltaTime;
+//                return;
+//            }
 
             switch (state) {
                 case IDLE:

@@ -43,6 +43,9 @@ public class AssetManagerLocal {
         for (HudAnimation type : HudAnimation.values()) {
             loadAnimation(type);
         }
+        for(HuskHornHeadAnimation type : HuskHornHeadAnimation.values()) {
+            loadAnimation(type);
+        }
     }
 
     public static AssetManagerLocal getInstance() {
