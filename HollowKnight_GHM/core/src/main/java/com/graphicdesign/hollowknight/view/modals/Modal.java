@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.graphicdesign.hollowknight.model.AssetManagerLocal;
+import com.graphicdesign.hollowknight.view.PlayScreen;
 import com.graphicdesign.hollowknight.view.UiManager;
 
 public abstract class Modal extends Table {

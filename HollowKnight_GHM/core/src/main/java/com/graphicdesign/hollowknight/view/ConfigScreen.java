@@ -13,8 +13,8 @@ import com.graphicdesign.hollowknight.controller.ConfigScreenController;
 import com.graphicdesign.hollowknight.model.AssetManagerLocal;
 import com.graphicdesign.hollowknight.model.AudioManager;
 import com.graphicdesign.hollowknight.model.Constants;
-
-
+import com.graphicdesign.hollowknight.model.data.DatabaseManager;
+import com.graphicdesign.hollowknight.model.data.SettingData;
 
 
 public class ConfigScreen extends AbstractScreen{
@@ -33,43 +33,6 @@ public class ConfigScreen extends AbstractScreen{
         Viewport viewport = new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT);
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
-        Table table = new Table();
-        table.setFillParent(true);
-        Skin skin = AssetManagerLocal.getInstance().getSkin();
-
-        Table page = new Table();
-        page.defaults().pad(10f);
-
-            Label musicLabel = new Label("Music volume", skin);
-            musicVolume = new Slider(0, 100, 1, false, skin);
-            musicVolume.setValue(AudioManager.musicVolume * 100);
-
-            muteSfx = new CheckBox("Reset muteSfx", skin, "on-off");
-            muteMusic = new CheckBox("muteMusic", skin, "on-off");
-            resetSfx = new TextButton("Reset sfx", skin);
-
-            Label brightLabel = new Label("Brightness", skin);
-            brightness = new Slider(0,100,1,false,skin);
-        brightness.setValue(100); // TODO -> I should have a class that saves user's data and fill this with that
-
-        saveButton = new TextButton("save", skin);
-
-        page.add(musicLabel).left();
-        page.add(musicVolume).width(300f).row();
-
-        page.add(muteMusic).left().row();
-        page.add(muteSfx).left().row();
-        page.add(resetSfx).left().row();
-
-        page.add(brightLabel).left();
-        page.add(brightness).width(300f).row();
-
-        ScrollPane scrollPane = new ScrollPane(page, skin);
-        table.add(scrollPane).expand().fill().row();
-        table.add(saveButton).pad(20).right();
-
-
-        new ConfigScreenController(this);
     }
 
     @Override
@@ -80,17 +43,23 @@ public class ConfigScreen extends AbstractScreen{
         Table page = new Table();
         page.defaults().pad(10f);
 
+        SettingData savedSetting = DatabaseManager.getInstance().loadSetting();
+
         Label musicLabel = new Label("Music volume", skin);
         musicVolume = new Slider(0, 100, 1, false, skin);
-        musicVolume.setValue(AudioManager.musicVolume * 100);
+        musicVolume.setValue(savedSetting.getMusicVolume());
 
-        muteSfx = new CheckBox("Reset muteSfx", skin, "on-off");
-        muteMusic = new CheckBox("muteMusic", skin, "on-off");
+        muteSfx = new CheckBox("mute Sfx", skin, "on-off");
+        muteSfx.setChecked(savedSetting.isSfxMute());
+
+        muteMusic = new CheckBox("mute Music", skin, "on-off");
+        muteMusic.setChecked(savedSetting.isMusicMute());
+
         resetSfx = new TextButton("Reset sfx", skin);
 
         Label brightLabel = new Label("Brightness", skin);
         brightness = new Slider(0,100,1,false,skin);
-        brightness.setValue(100); // TODO -> I should have a class that saves user's data and fill this with that
+        brightness.setValue(savedSetting.getBrightness());
 
         saveButton = new TextButton("save", skin);
 
@@ -105,6 +74,7 @@ public class ConfigScreen extends AbstractScreen{
         page.add(brightness).width(300f).row();
 
         ScrollPane scrollPane = new ScrollPane(page, skin);
+
         rootTable.add(scrollPane).expand().fill().row();
         rootTable.add(saveButton).pad(20).right();
 

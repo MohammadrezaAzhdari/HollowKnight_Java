@@ -70,6 +70,10 @@ public class B2WorldCreator {
             if(type.equals("HuskHornedHead")) {
                 screen.addEnemy(new HuskHornedHead(world, x, y, screen.getKnight()));
             }
+            if(type.equals("RoomEnterance")) {
+                Constants.BOSS_ROOM_X = x;
+                Constants.BOSS_ROOM_Y = y;
+            }
         }
     }
     private void buildCliffs(TiledMap map, World world){

@@ -4,6 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.graphicdesign.hollowknight.view.MainScreen;
 import com.graphicdesign.hollowknight.view.UiManager;
+import com.graphicdesign.hollowknight.view.modals.CheatCodeModal;
+import com.graphicdesign.hollowknight.view.modals.Modal;
 import com.graphicdesign.hollowknight.view.modals.PauseModal;
 
 public class PauseController {
@@ -52,6 +54,9 @@ public class PauseController {
         // TODO -> Save first, Then exit.
         UiManager.setScreen(new MainScreen());
     }
-    private void onShowCheatCode() {}
+    private void onShowCheatCode() {
+        CheatCodeModal cheatCodeModal = new CheatCodeModal();
+        cheatCodeModal.show();
+    }
     private void onSetting() {}
 }

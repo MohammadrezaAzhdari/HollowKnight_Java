@@ -18,6 +18,8 @@ public class PlayScreenController extends InputAdapter {
 
     private boolean leftPressed;
     private boolean rightPressed;
+    private boolean downPressed;
+    private boolean upPressed;
 
     public PlayScreenController(Knight knight, Zote zote) {
         this.knight = knight;
@@ -28,7 +30,8 @@ public class PlayScreenController extends InputAdapter {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.UP:
-                if (knight.jumpCount < 2) {
+                upPressed = true;
+                if (!knight.isSpectator && knight.jumpCount < 2) {
                     if (knight.jumpCount == 1) {
                         knight.b2body.setLinearVelocity(knight.b2body.getLinearVelocity().x, 0);
                     }
@@ -70,6 +73,9 @@ public class PlayScreenController extends InputAdapter {
             case Input.Keys.A:
                 knight.startFocus();
                 return true;
+            case Input.Keys.DOWN:
+                downPressed = true;
+                return true;
         }
         return false;
     }
@@ -86,12 +92,32 @@ public class PlayScreenController extends InputAdapter {
             case Input.Keys.A:
                 knight.stopFocus();
                 return true;
+            case Input.Keys.UP:
+                upPressed = false;
+                return true;
+            case Input.Keys.DOWN:
+                downPressed = false;
+                return true;
         }
         return false;
     }
 
     public void update(float deltaTime) {
         Vector2 velocity = knight.b2body.getLinearVelocity();
+
+        if (knight.isSpectator) {
+            float flySpeed = Constants.RUN * 30f;
+            float velX = 0;
+            float velY = 0;
+
+            if (leftPressed) velX = -flySpeed;
+            if (rightPressed) velX = flySpeed;
+            if (upPressed) velY = flySpeed;
+            if (downPressed) velY = -flySpeed;
+
+            knight.b2body.setLinearVelocity(velX, velY);
+            return;
+        }
 
         if (knight.isFocusing || knight.isFocusEnding) {
             resetMovement();

@@ -120,5 +120,7 @@ public class Constants {
     public static final float HUSK_ATTACK_SPEED = 10f;
     public static final float HUSK_COOLDOWN_TIME = 0.8f;
 
-
+    // False knight constants :
+    public static float BOSS_ROOM_X;
+    public static float BOSS_ROOM_Y;
 }
