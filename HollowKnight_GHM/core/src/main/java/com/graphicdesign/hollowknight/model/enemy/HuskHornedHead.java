@@ -29,6 +29,7 @@ public class HuskHornedHead extends GroundEnemy{
         currentState = HornHeadState.IDLE;
         previousState = HornHeadState.IDLE;
         health = 100;
+        type = "Husk Horned Head";
     }
 
     @Override

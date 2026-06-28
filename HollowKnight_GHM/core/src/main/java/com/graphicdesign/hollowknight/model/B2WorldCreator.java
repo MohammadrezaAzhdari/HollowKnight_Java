@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.graphicdesign.hollowknight.model.data.EnemyData;
 import com.graphicdesign.hollowknight.model.enemy.*;
 import com.graphicdesign.hollowknight.view.PlayScreen;
 
@@ -52,28 +53,33 @@ public class B2WorldCreator {
             y = object.getProperties().get("y", float.class) / Constants.PPM;
 
             String type = object.getName();
-            if(type.equals("TickTick")) {
-                screen.addEnemy(new TickTick(world, x, y));
-            }
-            if(type.equals("WingedSentry")) {
-                screen.addEnemy(new WingedSentry(world, screen.getKnight(), x, y));
-            }
-            if(type.equals("Mosquito")) {
-                screen.addEnemy(new Mosquito(world, x, y, screen.getKnight()));
-            }
-            if(type.equals("Crystallized")) {
-                screen.addEnemy(new CrystalGuardian(world, x, y, screen.getKnight()));
-            }
-            if(type.equals("Zote")) {
-                screen.setZote(new Zote(world, x, y, screen.getKnight()));
-            }
-            if(type.equals("HuskHornedHead")) {
-                screen.addEnemy(new HuskHornedHead(world, x, y, screen.getKnight()));
-            }
             if(type.equals("RoomEnterance")) {
                 Constants.BOSS_ROOM_X = x;
                 Constants.BOSS_ROOM_Y = y;
+            } else if(type.equals("Zote")) {
+                screen.setZote(new Zote(world, x, y, screen.getKnight()));
             }
+            else if (screen.isNewGame()) {
+                if(type.equals("TickTick")) {
+                    screen.addEnemy(new TickTick(world, x, y));
+                }
+                if(type.equals("WingedSentry")) {
+                    screen.addEnemy(new WingedSentry(world, screen.getKnight(), x, y));
+                }
+                if(type.equals("Mosquito")) {
+                    screen.addEnemy(new Mosquito(world, x, y, screen.getKnight()));
+                }
+                if(type.equals("Crystallized")) {
+                    screen.addEnemy(new CrystalGuardian(world, x, y, screen.getKnight()));
+                }
+                if(type.equals("HuskHornedHead")) {
+                    screen.addEnemy(new HuskHornedHead(world, x, y, screen.getKnight()));
+                }
+            }
+        }
+
+        if(!screen.isNewGame()) {
+            loadEnemies(screen);
         }
     }
     private void buildCliffs(TiledMap map, World world){
@@ -107,7 +113,7 @@ public class B2WorldCreator {
         BodyDef bodyDef = new BodyDef();
         PolygonShape shape = new PolygonShape();
 
-        for(MapObject object : map.getLayers().get("boss").getObjects()) {
+        for(MapObject object : layer.getObjects()) {
 
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             String name = object.getName();
@@ -139,5 +145,41 @@ public class B2WorldCreator {
 
         }
         shape.dispose();
+    }
+    private void loadEnemies(PlayScreen screen) {
+        World world = screen.getWorld();
+        for (EnemyData enemy : screen.getSavedData().getEnemiesData()) {
+            switch (enemy.type) {
+                case "Tick Tick" :
+                {
+                    screen.addEnemy(new TickTick(world, enemy.x, enemy.y));
+                    break;
+                }
+                case "Mosquito" :
+                {
+                    screen.addEnemy(new Mosquito(world, enemy.x, enemy.y, screen.getKnight()));
+                    break;
+                }
+                case "Crystal Guardian" :
+                {
+                    screen.addEnemy(new CrystalGuardian(world, enemy.x, enemy.y, screen.getKnight()));
+                    break;
+                }
+                case "Husk Horned Head" :
+                {
+                    screen.addEnemy(new HuskHornedHead(world, enemy.x, enemy.y, screen.getKnight()));
+                    break;
+                }
+                case "False Knight" :
+                {
+                    screen.addEnemy(new FalseKnight(world, enemy.x, enemy.y, screen.getKnight()));
+                    break;
+                }
+                case "Winged Sentry" :
+                {
+                    screen.addEnemy(new WingedSentry(world, screen.getKnight() ,enemy.x, enemy.y));
+                }
+            }
+        }
     }
 }

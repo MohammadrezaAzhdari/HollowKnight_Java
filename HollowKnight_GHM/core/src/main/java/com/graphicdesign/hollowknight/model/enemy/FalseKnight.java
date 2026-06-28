@@ -11,6 +11,7 @@ public class FalseKnight extends Enemy{
         super(world, x, y);
         this.knight = knight;
         defineEnemy(x,y);
+        type = "False Knight";
     }
 
     @Override

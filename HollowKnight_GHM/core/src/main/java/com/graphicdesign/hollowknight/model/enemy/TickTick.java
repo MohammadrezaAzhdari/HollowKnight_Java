@@ -19,6 +19,7 @@ public class TickTick extends GroundEnemy{
         this.currentAnimation = TickTickAnimation.WALK;
         stateTime = 0f;
         health = 100;
+        type = "Tick Tick";
     }
 
     @Override

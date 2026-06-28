@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.graphicdesign.hollowknight.HollowKnight;
 import com.graphicdesign.hollowknight.controller.PlayScreenController;
 import com.graphicdesign.hollowknight.model.*;
+import com.graphicdesign.hollowknight.model.data.DatabaseManager;
+import com.graphicdesign.hollowknight.model.data.GameData;
 import com.graphicdesign.hollowknight.model.enemy.Enemy;
 import com.graphicdesign.hollowknight.model.hud.Hud;
 
@@ -53,13 +55,18 @@ public class PlayScreen extends AbstractScreen {
     // camera shaking variables :
     private float shakeDuration = 0;
     private float shakeIntensity = 0;
+
+    public int currentGameSlot;
     private Random random = new Random();
+    private boolean isNewGame;
+    private GameData savedData;
 
-    public PlayScreen(HollowKnight game) {
+    public PlayScreen(HollowKnight game, GameData savedData) {
         this.game = game;
-
         camera = new OrthographicCamera();
         gamePort = new ScreenViewport(camera);
+        this.savedData = savedData;
+        isNewGame = (savedData == null);
 
         // Map:
         mapLoader = new TmxMapLoader();
@@ -73,8 +80,24 @@ public class PlayScreen extends AbstractScreen {
         world = new World(new Vector2(0, -Constants.GRAVITY), true);
         b2dr = new Box2DDebugRenderer();
 
-        Vector2 spawn = findPlayerSpawnPoint();
+        Vector2 spawn;
+
+        if(isNewGame) {
+            spawn = findPlayerSpawnPoint();
+            currentGameSlot = findSlotNumber();
+        }
+        else {
+            spawn = new Vector2(savedData.getKnightPosX(), savedData.getKnightPosY());
+            currentGameSlot = savedData.getSlotId();
+        }
+
         knight = new Knight(world, spawn);
+
+        if(!isNewGame) {
+            knight.soulAmount = savedData.getSoulAmount();
+            knight.health = savedData.getHealth();
+        }
+
         hud = new Hud(game.batch, knight);
 
         camera.position.set(spawn,0);
@@ -91,10 +114,6 @@ public class PlayScreen extends AbstractScreen {
 
         gamePort.setUnitsPerPixel(1 / Constants.PPM);
 
-        // music :
-//        music = HollowKnight.manager.get("audio/music/hollowknight.ogg", Music.class);
-//        music.setLooping(true);
-//        music.play();
     }
 
     public void update(float deltaTime) {
@@ -239,5 +258,28 @@ public class PlayScreen extends AbstractScreen {
     public void shakeCamera(float duration , float strength) {
         shakeDuration = duration;
         shakeIntensity = strength;
+    }
+
+    private int findSlotNumber() {
+        int slotNumber = 1;
+        for(int i = 1; i <= 4; i++) {
+            if(DatabaseManager.getInstance().loadGame(i) == null) {
+                slotNumber = i;
+                break;
+            }
+        }
+        return slotNumber;
+    }
+
+    public List<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public boolean isNewGame() {
+        return isNewGame;
+    }
+
+    public GameData getSavedData() {
+        return savedData;
     }
 }

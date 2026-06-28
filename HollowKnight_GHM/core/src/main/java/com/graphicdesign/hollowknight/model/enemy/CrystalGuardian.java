@@ -25,6 +25,7 @@ public class CrystalGuardian extends GroundEnemy{
         this.previousState = CrystalGuardianState.IDLE;
         this.stateTime = 0f;
         health = 140;
+        type = "Crystal Guardian";
     }
 
     @Override

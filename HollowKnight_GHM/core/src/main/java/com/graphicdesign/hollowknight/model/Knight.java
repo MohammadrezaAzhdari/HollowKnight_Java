@@ -425,7 +425,7 @@
             }
         }
 
-        public void takeDamage(int amount) {
+        public void takeDamage(int amount, boolean knockRight) {
             if(isInvincible) return;
             if(isSpectator) return;
             if(isInGodMode) return;
@@ -442,6 +442,14 @@
             else {
                 isInvincible = true;
                 invincibleTimer = Constants.KNIGHT_INVINCIBLE_TIMER;
+                b2body.setLinearVelocity(0,0);
+                float knockbackDirection = knockRight ? 1f : -1f;
+
+                b2body.applyLinearImpulse(new Vector2(knockbackDirection * Constants.KNOCKBACK_FORCE_X
+                    , Constants.KNOCKBACK_FORCE_Y)
+                    ,b2body.getWorldCenter()
+                    , true);
+
             }
         }
 

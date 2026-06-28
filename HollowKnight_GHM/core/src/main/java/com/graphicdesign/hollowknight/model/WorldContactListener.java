@@ -52,7 +52,12 @@
 
             if(collision == (Constants.KNIGHT_BIT | Constants.ENEMY_BIT))
             {
-                screen.getKnight().takeDamage(1);
+                Fixture knightFix = fix1.getFilterData().categoryBits == Constants.KNIGHT_BIT ? fix1 : fix2;
+                Fixture enemyFix = fix2.getFilterData().categoryBits == Constants.ENEMY_BIT ? fix2 : fix1;
+
+                boolean knockRight = knightFix.getBody().getPosition().x > enemyFix.getBody().getPosition().x;
+
+                screen.getKnight().takeDamage(1, knockRight);
             }
 
         }

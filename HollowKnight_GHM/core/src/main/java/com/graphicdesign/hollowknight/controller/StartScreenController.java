@@ -3,6 +3,8 @@ package com.graphicdesign.hollowknight.controller;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.graphicdesign.hollowknight.HollowKnight;
+import com.graphicdesign.hollowknight.model.data.DatabaseManager;
+import com.graphicdesign.hollowknight.model.data.GameData;
 import com.graphicdesign.hollowknight.view.MainScreen;
 import com.graphicdesign.hollowknight.view.PlayScreen;
 import com.graphicdesign.hollowknight.view.StartScreen;
@@ -21,7 +23,7 @@ public class StartScreenController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("New Game button clicked!");
-                UiManager.setScreen(new PlayScreen(HollowKnight.getGame()));
+                UiManager.setScreen(new PlayScreen(HollowKnight.getGame(), null));
             }
         });
         screen.getSlot1().addListener(createLoadListener(1));
@@ -42,8 +44,14 @@ public class StartScreenController {
         return new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO -> Check if "save_slot_" + slotNumber + ".json" exists
-                //         If it exists, parse it.
+                GameData savedData = DatabaseManager.getInstance().loadGame(slotNumber);
+
+                if(savedData == null) {
+                    screen.openToast("Slot " + slotNumber + "is empty , please play more games.");
+                }
+                else {
+                    UiManager.setScreen(new PlayScreen(HollowKnight.getGame(), savedData));
+                }
             }
         };
     }

@@ -54,6 +54,10 @@ public class Hud implements Disposable {
         for (int i = 0; i < Constants.KNIGHT_HEALTH_COUNT; i++) {
             masks[i] = new HealthMask(full, empty, breakAnimation, refillAnimation);
             healthBar.add(masks[i]).size(53,70).padRight(5);
+
+            if (i >= knight.health) {
+                masks[i].breakMask();
+            }
         }
 
         stage.addActor(healthBar);

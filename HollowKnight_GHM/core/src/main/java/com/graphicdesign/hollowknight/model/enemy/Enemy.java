@@ -11,8 +11,9 @@
         public Body b2body;
         public float stateTime;
         protected int health;
-        protected boolean isDead = false;
+        public boolean isDead = false;
         protected float knockBackTimer = 0f;
+        protected String type;
 
         public Enemy(World world, float x, float y) {
             this.world = world;
@@ -51,4 +52,7 @@
             b2body.getFixtureList().first().setFilterData(filter);
         }
 
+        public String getType() {
+            return type;
+        }
     }

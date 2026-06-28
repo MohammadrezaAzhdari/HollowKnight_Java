@@ -36,6 +36,7 @@
             this.state = State.IDLE;
             this.currentAnim = WingedSentryAnimation.IDLE;
             this.stateTime = 0;
+            type = "Winged Sentry";
         }
 
         @Override

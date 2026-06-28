@@ -36,6 +36,7 @@ public class Mosquito extends FlyingEnemy{
 
         currentAnimation = MosquitoAnimation.IDLE;
         health = 100;
+        type = "Mosquito";
 
     }
 
