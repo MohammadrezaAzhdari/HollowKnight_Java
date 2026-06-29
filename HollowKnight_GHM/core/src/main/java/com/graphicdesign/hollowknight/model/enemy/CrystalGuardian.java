@@ -17,6 +17,10 @@ public class CrystalGuardian extends GroundEnemy{
     private float stateTime;
     private Knight player;
     private CrystalGuardianAnimation currentAnimation;
+    private boolean hasJumpedForEvade = false;
+    private float laserStateTime = 0f;
+    private Fixture laserSensor;
+
 
     public CrystalGuardian(World world, float x, float y, Knight player) {
         super(world, x, y);
@@ -74,6 +78,24 @@ public class CrystalGuardian extends GroundEnemy{
                 b2body.setLinearVelocity(0, b2body.getLinearVelocity().y);
                 currentAnimation = CrystalGuardianAnimation.IDLE;
                 if(canSeePlayer()) {
+                    changeState(CrystalGuardianState.EVADE);
+                }
+                break;
+            }
+            case EVADE:
+            {
+                currentAnimation = CrystalGuardianAnimation.EVADE;
+                if(!hasJumpedForEvade) {
+                    float jumpDirection = walkRight ? -1f : 1f;
+                    b2body.applyLinearImpulse(new Vector2(
+                        jumpDirection * Constants.CRYSTALLIZED_EVADE_X_FORCE,
+                        Constants.CRYSTALLIZED_EVADE_Y_FORCE),
+                        b2body.getWorldCenter(), true);
+                    hasJumpedForEvade = true;
+                }
+
+                if(stateTime >= Constants.CRYSTALLIZED_EVADE_DURATION) {
+                    hasJumpedForEvade = false;
                     changeState(CrystalGuardianState.SHOOTING);
                 }
                 break;
@@ -83,9 +105,9 @@ public class CrystalGuardian extends GroundEnemy{
                 b2body.setLinearVelocity(0, b2body.getLinearVelocity().y);
                 currentAnimation = CrystalGuardianAnimation.SHOOT;
 
-                // TODO -> Lazer logic goes here.
+                updateLaser(deltaTime);
 
-                if(stateTime >= Constants.CRYSTALLIZED_SHOOTING_DURATION) {
+                if(stateTime >= Constants.CRYSTALLIZED_SHOOTING_DURATION + Constants.CRYSTALLIZED_SHOOT_PAUSE_DURATION) {
                     changeState(CrystalGuardianState.ENRAGED);
                 }
                 break;
@@ -108,8 +130,20 @@ public class CrystalGuardian extends GroundEnemy{
 
     @Override
     public void draw(SpriteBatch batch) {
+        float renderTime = stateTime;
+
+        if(currentState == CrystalGuardianState.SHOOTING) {
+            float pauseTime = 3 * Constants.FRAME_DURATION;
+
+            if(stateTime >= pauseTime && stateTime <= pauseTime + Constants.CRYSTALLIZED_SHOOT_PAUSE_DURATION) {
+                renderTime = pauseTime;
+            }
+            else if(stateTime > pauseTime + Constants.CRYSTALLIZED_SHOOT_PAUSE_DURATION) {
+                renderTime = stateTime - Constants.CRYSTALLIZED_SHOOT_PAUSE_DURATION;
+            }
+        }
         Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(currentAnimation);
-        TextureRegion region = animation.getKeyFrame(stateTime);
+        TextureRegion region = animation.getKeyFrame(renderTime);
 
         if (walkRight && !region.isFlipX()) {
             region.flip(true, false);
@@ -125,7 +159,40 @@ public class CrystalGuardian extends GroundEnemy{
 
         batch.draw(region, x, y, width, height);
 
+        if(currentState == CrystalGuardianState.SHOOTING) {
+            drawLaser(batch);
+        }
+
     }
+
+    private void drawLaser(SpriteBatch batch) {
+        Animation<TextureRegion> laserAnimation = AssetManagerLocal.getInstance().animationMap.get(CrystalGuardianAnimation.LAZER);
+
+        float renderTime = laserStateTime;
+        float pauseTime = 8 * Constants.FRAME_DURATION;
+
+        if(laserStateTime >= pauseTime && laserStateTime <= pauseTime + Constants.CRYSTALLIZED_LASER_PAUSE_DURATION) {
+            renderTime = pauseTime;
+        }
+        else if(laserStateTime > pauseTime + Constants.CRYSTALLIZED_LASER_PAUSE_DURATION) {
+            renderTime = laserStateTime - Constants.CRYSTALLIZED_LASER_PAUSE_DURATION;
+        }
+
+        TextureRegion region = laserAnimation.getKeyFrame(renderTime);
+
+        float laserPosX = walkRight ? b2body.getPosition().x + 1f : b2body.getPosition().x - 3f ;
+        float width = region.getRegionWidth() / Constants.PPM;
+        float height = region.getRegionHeight() / (Constants.PPM);
+
+        float laserYPad = 0.1f;
+        float drawY = b2body.getPosition().y + laserYPad - (height / 2f);
+
+        for(int i = 0; i < 5; i++) {
+            float currentX = walkRight ? laserPosX + (i * width) : laserPosX - (i * width);
+            batch.draw(region, currentX, drawY, width, height);
+        }
+    }
+
     private boolean canSeePlayer() {
         Vector2 playerPos = player.b2body.getPosition();
         Vector2 guardianPos = b2body.getPosition();
@@ -144,5 +211,66 @@ public class CrystalGuardian extends GroundEnemy{
         previousState = currentState;
         currentState = state;
         stateTime = 0f;
+        if(state == CrystalGuardianState.SHOOTING) {
+            laserStateTime = 0f;
+        }
+    }
+
+    private void updateLaser(float deltaTime) {
+        laserStateTime += deltaTime;
+        float peakLaserTime = 8 * Constants.FRAME_DURATION;
+
+        if(laserStateTime >= peakLaserTime && laserStateTime < peakLaserTime + Constants.CRYSTALLIZED_LASER_PAUSE_DURATION) {
+            if(laserSensor == null) {
+                createLaserSensor();
+            }
+        }
+        else if(laserStateTime >= peakLaserTime + Constants.CRYSTALLIZED_LASER_PAUSE_DURATION) {
+            if(laserSensor != null) {
+                destroyLaserSensor();
+            }
+        }
+    }
+    private void destroyLaserSensor() {
+        b2body.destroyFixture(laserSensor);
+        laserSensor = null;
+    }
+
+    private void createLaserSensor() {
+        Animation<TextureRegion> laserAnimation = AssetManagerLocal.getInstance().animationMap.get(CrystalGuardianAnimation.LAZER);
+        TextureRegion region = laserAnimation.getKeyFrame(laserStateTime);
+
+        float width = region.getRegionWidth() / Constants.PPM;
+        float height = region.getRegionHeight() / Constants.PPM;
+
+        float laserWidth = 5 * width;
+        float hx = laserWidth / 2;
+        float hy = (height / 2) * 0.7f;
+
+        float centerX = walkRight ? (1f + hx) : ( - hx);
+        Vector2 center = new Vector2(centerX, 0);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(hx, hy, center, 0);
+
+        FixtureDef fdef = new FixtureDef();
+        fdef.shape = shape;
+        fdef.isSensor = true;
+        fdef.filter.categoryBits = Constants.ENEMY_BIT;
+        fdef.filter.maskBits = Constants.KNIGHT_BIT;
+
+        laserSensor = b2body.createFixture(fdef);
+        laserSensor.setUserData("Laser");
+        shape.dispose();
+    }
+
+    @Override
+    public void reverseDirection() {
+        if (currentState == CrystalGuardianState.EVADE ||
+            currentState == CrystalGuardianState.SHOOTING ||
+            currentState == CrystalGuardianState.ENRAGED) {
+            return;
+        }
+        super.reverseDirection();
     }
 }

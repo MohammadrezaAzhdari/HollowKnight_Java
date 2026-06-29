@@ -27,7 +27,7 @@ public abstract class Modal extends Table {
         setTouchable(Touchable.enabled);
 
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGB888);
-        pixmap.setColor(new Color(0, 0, 0, 0.5f)); // TODO -> Make this right!
+        pixmap.setColor(new Color(0, 0, 0, 0.2f)); // TODO -> Make this right!
         pixmap.fill();
         wrapperTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pixmap))));
         pixmap.dispose();
@@ -41,6 +41,7 @@ public abstract class Modal extends Table {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(event.getTarget() == wrapperTable) {
+                    ((PlayScreen)UiManager.getScreen()).isPaused = false;
                     hide();
                 }
             }

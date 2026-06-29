@@ -36,6 +36,7 @@ public class Constants {
     public static final float KNOCKBACK_TIMER = 0.25f;
     public static final float KNOCKBACK_FORCE_X = 6f;
     public static final float KNOCKBACK_FORCE_Y = 10f;
+    public static float BRIGHTNESS = 1.0f;
 
     // Collision bits :
     public static final short GROUND_BIT = 1;
@@ -86,16 +87,23 @@ public class Constants {
     // Crystallized constants :
     public static final float CRYSTALLIZED_WIDTH = 60f;
     public static final float CRYSTALLIZED_HEIGHT = 75f;
-    public static final float CRYSTALLIZED_ENRAGED_SPEED = 3f;
+    public static final float CRYSTALLIZED_ENRAGED_SPEED = 8f;
     public static final float CRYSTALLIZED_ENRAGED_DURATION = 3f;
     public static final float CRYSTALLIZED_SIGHT_X_RANGE = 400f / PPM;
     public static final float CRYSTALLIZED_SIGHT_Y_RANGE = 50f / PPM;
-    public static final float CRYSTALLIZED_SHOOTING_DURATION = 2f;
+    public static final float CRYSTALLIZED_SHOOTING_DURATION = 1.8f;
+    public static final float CRYSTALLIZED_EVADE_DURATION = 0.8f;
+    public static final float CRYSTALLIZED_SHOOT_PAUSE_DURATION = 1.8f;
+    public static final float CRYSTALLIZED_LASER_PAUSE_DURATION = 1.8f;
+    public static final float CRYSTALLIZED_EVADE_X_FORCE = 6f;
+    public static final float CRYSTALLIZED_EVADE_Y_FORCE = 10f;
 
     // Zote constants :
     public static final float ZOTE_WIDTH = 30f;
     public static final float ZOTE_HEIGHT = 80f;
     public static final float ZOTE_DIALOG_RADIUS = 300f / PPM;
+    public static final float ZOTE_SPEED = 3f;
+    public static final float ZOTE_ATTACK_DURATION = 3f;
 
 
     // Charm constants :
@@ -123,4 +131,9 @@ public class Constants {
     // False knight constants :
     public static float BOSS_ROOM_X;
     public static float BOSS_ROOM_Y;
+    public static final float FALSE_KNIGHT_WIDTH = 110f;
+    public static final float FALSE_KNIGHT_HEIGHT = 100f;
+    public static final float CLOSE_COMBAT_RANGE = 8f;
+    public static final float FAR_COMBAT_RANGE = 30f;
+    public static final float FALSE_KNIGHT_RUN_SPEED = 8f;
 }

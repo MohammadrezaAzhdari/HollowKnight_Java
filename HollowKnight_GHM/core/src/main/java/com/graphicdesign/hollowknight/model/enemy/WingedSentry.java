@@ -10,8 +10,6 @@
     import com.graphicdesign.hollowknight.model.AssetManagerLocal;
     import com.graphicdesign.hollowknight.model.Constants;
     import com.graphicdesign.hollowknight.model.Knight;
-    import com.graphicdesign.hollowknight.model.enums.MosquitoState;
-    import com.graphicdesign.hollowknight.model.enums.animation.MosquitoAnimation;
     import com.graphicdesign.hollowknight.model.enums.animation.WingedSentryAnimation;
 
     public class WingedSentry extends FlyingEnemy{

@@ -1,5 +1,7 @@
 package com.graphicdesign.hollowknight.model.enemy;
 
+import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,17 +12,21 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.graphicdesign.hollowknight.model.AssetManagerLocal;
 import com.graphicdesign.hollowknight.model.Constants;
 import com.graphicdesign.hollowknight.model.enums.animation.TickTickAnimation;
+import com.graphicdesign.hollowknight.model.enums.states.TickTickState;
 
 public class TickTick extends GroundEnemy{
     private TickTickAnimation currentAnimation;
+    public StateMachine<TickTick, TickTickState> stateMachine;
 
     public TickTick(World world, float x, float y) {
         super(world, x, y);
-        this.currentAnimation = TickTickAnimation.WALK;
         stateTime = 0f;
-        health = 100;
+        health = 60;
         type = "Tick Tick";
+        changeAnimation(TickTickAnimation.WALK);
+        stateMachine = new DefaultStateMachine<>(this, TickTickState.WALK);
     }
+
 
     @Override
     protected void defineEnemy(float x, float y) {
@@ -52,22 +58,19 @@ public class TickTick extends GroundEnemy{
 
     @Override
     public void update(float deltaTime) {
-        if(isDead) {
-            currentAnimation = TickTickAnimation.DEATH;
-            Animation<TextureRegion> anim = AssetManagerLocal.getInstance().animationMap.get(currentAnimation);
-            if (!anim.isAnimationFinished(stateTime)) {
-                stateTime += deltaTime;
-            }
-        }
-        else {
-            if (knockBackTimer > 0) {
-                knockBackTimer -= deltaTime;
-            } else {
-                float velocity = walkRight ? -Constants.TICKTICK_SPEED : Constants.TICKTICK_SPEED;
-                b2body.setLinearVelocity(velocity, b2body.getLinearVelocity().y);
-            }
+
+        if(!isDead || !isCurrentAnimationFinished()) {
             stateTime += deltaTime;
         }
+
+        if(knockBackTimer > 0) {
+            knockBackTimer -= deltaTime;
+        }
+
+        if(isDead && stateMachine.getCurrentState() != TickTickState.DEATH) {
+            stateMachine.changeState(TickTickState.DEATH);
+        }
+        stateMachine.update();
     }
 
     @Override
@@ -88,5 +91,15 @@ public class TickTick extends GroundEnemy{
         float y = b2body.getPosition().y - (height / 2f);
 
         batch.draw(region, x, y, width, height);
+    }
+
+    public void changeAnimation (TickTickAnimation animation) {
+        currentAnimation = animation;
+        stateTime = 0f;
+    }
+
+    public boolean isCurrentAnimationFinished() {
+        Animation<TextureRegion> anim = AssetManagerLocal.getInstance().animationMap.get(currentAnimation);
+        return anim.isAnimationFinished(stateTime);
     }
 }

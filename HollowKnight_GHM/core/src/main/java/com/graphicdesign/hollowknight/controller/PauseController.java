@@ -7,6 +7,7 @@ import com.graphicdesign.hollowknight.model.data.DatabaseManager;
 import com.graphicdesign.hollowknight.model.data.EnemyData;
 import com.graphicdesign.hollowknight.model.data.GameData;
 import com.graphicdesign.hollowknight.model.enemy.Enemy;
+import com.graphicdesign.hollowknight.view.ConfigScreen;
 import com.graphicdesign.hollowknight.view.MainScreen;
 import com.graphicdesign.hollowknight.view.PlayScreen;
 import com.graphicdesign.hollowknight.view.UiManager;
@@ -54,6 +55,7 @@ public class PauseController {
     }
 
     private void onContinue() {
+        ((PlayScreen)UiManager.getScreen()).isPaused = false;
         modal.hide();
     }
     private void onSaveAndExit() {
@@ -83,5 +85,7 @@ public class PauseController {
         CheatCodeModal cheatCodeModal = new CheatCodeModal();
         cheatCodeModal.show();
     }
-    private void onSetting() {}
+    private void onSetting() {
+        UiManager.setScreen(new ConfigScreen());
+    }
 }

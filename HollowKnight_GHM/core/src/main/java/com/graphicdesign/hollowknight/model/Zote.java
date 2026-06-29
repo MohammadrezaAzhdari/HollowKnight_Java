@@ -14,6 +14,8 @@ public class Zote {
     private ZoteAnimation currentAnimation;
     private boolean facingRight = true;
     private Knight player;
+    private boolean isAttacking = false;
+    private float attackTimer = 0f;
 
     public Zote(World world, float x, float y, Knight knight) {
         this.world = world;
@@ -46,7 +48,12 @@ public class Zote {
 
     public void update(float deltaTime) {
         stateTime += deltaTime;
-        // TODO -> Handle zote logic here!
+
+        if(isAttacking) {
+            attackTimer += deltaTime;
+            facingRight = player.b2body.getPosition().x > b2body.getPosition().x;
+
+        }
     }
 
     public void draw(SpriteBatch batch) {
@@ -80,6 +87,14 @@ public class Zote {
         float distance = knightPosition.dst(zotePosition);
         if(distance < Constants.ZOTE_DIALOG_RADIUS) {return true;}
         return false;
+    }
+    public void attack() {
+        if(!isAttacking) {
+            isAttacking = true;
+            attackTimer = 0f;
+            stateTime = 0f;
+            currentAnimation = ZoteAnimation.ATTACK;
+        }
     }
 }
 

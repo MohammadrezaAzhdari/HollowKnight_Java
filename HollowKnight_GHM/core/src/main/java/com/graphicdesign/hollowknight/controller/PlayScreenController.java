@@ -8,11 +8,13 @@ import com.graphicdesign.hollowknight.model.Knight;
 import com.badlogic.gdx.Input;
 import com.graphicdesign.hollowknight.model.Zote;
 import com.graphicdesign.hollowknight.model.enums.animation.KnightAnimation;
+import com.graphicdesign.hollowknight.view.PlayScreen;
 import com.graphicdesign.hollowknight.view.modals.DialogModal;
 import com.graphicdesign.hollowknight.view.modals.InventoryModal;
 import com.graphicdesign.hollowknight.view.modals.PauseModal;
 
 public class PlayScreenController extends InputAdapter {
+    private PlayScreen screen;
     private Knight knight;
     private Zote zote;
 
@@ -21,9 +23,10 @@ public class PlayScreenController extends InputAdapter {
     private boolean downPressed;
     private boolean upPressed;
 
-    public PlayScreenController(Knight knight, Zote zote) {
-        this.knight = knight;
-        this.zote = zote;
+    public PlayScreenController(PlayScreen screen) {
+        this.knight = screen.getKnight();
+        this.zote = screen.getZote();
+        this.screen = screen;
     }
 
     @Override
@@ -46,11 +49,13 @@ public class PlayScreenController extends InputAdapter {
                 rightPressed = true;
                 return true;
             case Input.Keys.ESCAPE:
+                screen.isPaused = true;
                 PauseModal pauseModal = new PauseModal();
                 pauseModal.show();
                 System.out.println("Pause Menu");
                 return true;
             case Input.Keys.I:
+                screen.isPaused = true;
                 InventoryModal inventory = new InventoryModal(knight);
                 inventory.show();
                 return true;

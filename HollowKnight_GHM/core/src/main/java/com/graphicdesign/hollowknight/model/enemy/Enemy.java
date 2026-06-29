@@ -12,7 +12,7 @@
         public float stateTime;
         protected int health;
         public boolean isDead = false;
-        protected float knockBackTimer = 0f;
+        public float knockBackTimer = 0f;
         protected String type;
 
         public Enemy(World world, float x, float y) {
@@ -30,16 +30,7 @@
             if(health <= 0) {
                 die();
             }
-            else
-            {
-                knockBackTimer = heavyBlow ? Constants.HEAVY_BLOW_KNOCKBACK_TIMER : Constants.KNOCKBACK_TIMER;
-                b2body.setLinearVelocity(0, b2body.getLinearVelocity().y);
-                float direction = knockRight ? 1 : -1;
-
-                float knockbackX = heavyBlow ? Constants.HEAVY_BLOW_X : Constants.KNOCKBACK_FORCE_X;
-                float knockbackY = heavyBlow ? Constants.HEAVY_BLOW_Y : Constants.KNOCKBACK_FORCE_Y;
-                b2body.applyLinearImpulse(new Vector2(direction * knockbackX, knockbackY), b2body.getWorldCenter(), true);
-            }
+            applyKnockback(knockRight, heavyBlow);
         }
         protected void die() {
             isDead = true;
@@ -54,5 +45,14 @@
 
         public String getType() {
             return type;
+        }
+        private void applyKnockback(boolean knockRight , boolean heavyBlow) {
+            knockBackTimer = heavyBlow ? Constants.HEAVY_BLOW_KNOCKBACK_TIMER : Constants.KNOCKBACK_TIMER;
+            b2body.setLinearVelocity(0, b2body.getLinearVelocity().y);
+            float direction = knockRight ? 1 : -1;
+
+            float knockbackX = heavyBlow ? Constants.HEAVY_BLOW_X : Constants.KNOCKBACK_FORCE_X;
+            float knockbackY = heavyBlow ? Constants.HEAVY_BLOW_Y : Constants.KNOCKBACK_FORCE_Y;
+            b2body.applyLinearImpulse(new Vector2(direction * knockbackX, knockbackY), b2body.getWorldCenter(), true);
         }
     }

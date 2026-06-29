@@ -75,6 +75,10 @@ public class B2WorldCreator {
                 if(type.equals("HuskHornedHead")) {
                     screen.addEnemy(new HuskHornedHead(world, x, y, screen.getKnight()));
                 }
+                if(type.equals("FalseKnight")) {
+                    screen.addEnemy(new FalseKnight(world, x, y, screen.getKnight()));
+                }
+
             }
         }
 

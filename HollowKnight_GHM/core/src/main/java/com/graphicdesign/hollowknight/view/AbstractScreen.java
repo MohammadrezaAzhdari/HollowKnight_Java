@@ -2,6 +2,8 @@ package com.graphicdesign.hollowknight.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,8 +25,13 @@ public abstract class AbstractScreen implements Screen {
     protected Table rootTable;
     private Stack modalStack;
     private Stack toastStack;
+    private ShapeRenderer shapeRenderer;
 
     protected Skin skin;
+
+    public AbstractScreen() {
+        shapeRenderer = new ShapeRenderer();
+    }
 
     @Override
     public void show() {
@@ -50,6 +57,21 @@ public abstract class AbstractScreen implements Screen {
     public void render(float delta) {
         stage.act(delta);
         stage.draw();
+
+        // Handling Brightness :
+
+        float darknessAlpha = (1f - Constants.BRIGHTNESS) * 0.8f; // -> i do this so when brightness is 0
+                                                                  // , it doesn't go black completely!
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0, 0, 0, darknessAlpha);
+        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.end();
+
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     @Override

@@ -1,7 +1,8 @@
-package com.graphicdesign.hollowknight.model.enums;
+    package com.graphicdesign.hollowknight.model.enums;
 
-public enum CrystalGuardianState {
-    IDLE,
-    SHOOTING,
-    ENRAGED
-}
+    public enum CrystalGuardianState {
+        IDLE,
+        SHOOTING,
+        ENRAGED,
+        EVADE
+    }

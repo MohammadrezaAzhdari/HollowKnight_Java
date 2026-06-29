@@ -60,6 +60,7 @@ public class PlayScreen extends AbstractScreen {
     private Random random = new Random();
     private boolean isNewGame;
     private GameData savedData;
+    public boolean isPaused = false;
 
     public PlayScreen(HollowKnight game, GameData savedData) {
         this.game = game;
@@ -102,7 +103,7 @@ public class PlayScreen extends AbstractScreen {
 
         camera.position.set(spawn,0);
 
-        controller = new PlayScreenController(knight, zote);
+        controller = new PlayScreenController(this);
 
         // creates floor for now
         worldCreator = new B2WorldCreator(this);
@@ -117,6 +118,7 @@ public class PlayScreen extends AbstractScreen {
     }
 
     public void update(float deltaTime) {
+        if(isPaused) return;
 
         controller.update(deltaTime);
         hud.update(deltaTime);
@@ -281,5 +283,9 @@ public class PlayScreen extends AbstractScreen {
 
     public GameData getSavedData() {
         return savedData;
+    }
+
+    public Zote getZote() {
+        return zote;
     }
 }

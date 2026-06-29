@@ -17,7 +17,7 @@
     public class Knight {
         private World world;
         public Body b2body;
-        public KnightAnimation animation = KnightAnimation.IDLE; // TODO : Change it to landing
+        public KnightAnimation animation = KnightAnimation.LANDING;
         public float stateTime = 0f;
         private boolean runningRight = true;
         private boolean isAttacking = false;
@@ -399,12 +399,18 @@
                     public boolean reportFixture(Fixture fixture) {
                         if (fixture.getFilterData().categoryBits == Constants.ENEMY_BIT) {
                             int damage = charms.contains("Unbreakable Strength") ? Constants.UNBREAKABLE_STRENGTH : Constants.KNIGHT_ATTACK_DAMAGE;
-                            ((Enemy) fixture.getUserData()).takeDamage(damage, runningRight, charms.contains("Heavy Blow"));
+                            if(fixture.getUserData() != "Laser") {
+                                ((Enemy) fixture.getUserData()).takeDamage(damage, runningRight, charms.contains("Heavy Blow"));
+                            }
                             soulAmount = Math.min(soulAmount + Constants.SOUL_PER_HIT, Constants.MAX_SOUL);
 
                             if(charms.contains("Soul Catcher")) {
                                 soulAmount = Math.min(soulAmount + Constants.SOUL_CATCHER, Constants.MAX_SOUL);
                             }
+                        }
+                        else if(fixture.getFilterData().categoryBits == Constants.NPC_BIT) {
+                            Zote zote = ((PlayScreen)UiManager.getScreen()).getZote();
+                            zote.attack();
                         }
                         return true;
                     }

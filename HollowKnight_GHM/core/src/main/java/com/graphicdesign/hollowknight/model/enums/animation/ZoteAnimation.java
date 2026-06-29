@@ -3,7 +3,7 @@ package com.graphicdesign.hollowknight.model.enums.animation;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 public enum ZoteAnimation implements AnimationData{
-    ATTACK("animations/zote/Attack.png",4,4,1, Animation.PlayMode.NORMAL),
+    ATTACK("animations/zote/Attack.png",4,4,1, Animation.PlayMode.LOOP),
     FALL("animations/zote/Fall.png",5,5,1, Animation.PlayMode.NORMAL),
     GETUP("animations/zote/Get Up.png",4,4,1, Animation.PlayMode.NORMAL),
     IDLE("animations/zote/Idle.png",5,5,1, Animation.PlayMode.LOOP),

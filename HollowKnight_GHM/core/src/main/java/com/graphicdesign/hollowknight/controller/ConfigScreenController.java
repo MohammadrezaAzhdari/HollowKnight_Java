@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.graphicdesign.hollowknight.HollowKnight;
 import com.graphicdesign.hollowknight.model.AudioManager;
+import com.graphicdesign.hollowknight.model.Constants;
 import com.graphicdesign.hollowknight.model.data.DatabaseManager;
 import com.graphicdesign.hollowknight.model.data.SettingData;
 import com.graphicdesign.hollowknight.view.ConfigScreen;
@@ -72,8 +73,8 @@ public class ConfigScreenController {
         screen.getBrightness().addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                float brightness = screen.getBrightness().getValue();
-                // TODO -> Logic here
+                float brightness = screen.getBrightness().getValue() / 100f;
+                Constants.BRIGHTNESS = brightness;
             }
         });
 
