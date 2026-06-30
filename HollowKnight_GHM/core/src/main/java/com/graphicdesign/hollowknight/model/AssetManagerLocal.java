@@ -107,4 +107,9 @@ public class AssetManagerLocal {
     public Skin getSkin() {
         return new Skin(Gdx.files.internal("skin/20MinTillDawn.json"));
     }
+
+    public static boolean isAnimationFinished(AnimationData animation, float stateTime) {
+        Animation<TextureRegion> region = AssetManagerLocal.getInstance().animationMap.get(animation);
+        return region.isAnimationFinished(stateTime);
+    }
 }

@@ -67,5 +67,4 @@ public class AchievementScreen extends AbstractScreen {
 
     }
 
-    //private void addAchievementRow(Table table, String title, )
 }

@@ -57,7 +57,8 @@
             fdef.filter.maskBits     =
                 Constants.KNIGHT_BIT
                     | Constants.GROUND_BIT
-                    | Constants.DESTROYABLE_BIT;
+                    | Constants.DESTROYABLE_BIT
+                    | Constants.PROJECTILE_BIT;
             b2body.createFixture(fdef).setUserData(this);
             shape.dispose();
         }
@@ -94,7 +95,7 @@
 
                 case ANTICIPATION:
                     currentAnim = WingedSentryAnimation.CHARGE_ANTIC;
-                    // once the anticipation animation finishes, go into the dash
+                    // once the anticipation currentAnimation finishes, go into the dash
                     if (AssetManagerLocal.getInstance()
                         .animationMap.get(currentAnim)
                         .isAnimationFinished(stateTime)) {

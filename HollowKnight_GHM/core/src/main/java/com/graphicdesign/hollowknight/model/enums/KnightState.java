@@ -14,5 +14,7 @@ public enum KnightState {
     FOCUS_START,
     FOCUS,
     FOCUS_GET,
-    FOCUS_END
+    FOCUS_END,
+    DEATH,
+    CASTING
 }

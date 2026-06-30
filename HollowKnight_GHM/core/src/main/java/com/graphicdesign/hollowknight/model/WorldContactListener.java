@@ -1,6 +1,7 @@
     package com.graphicdesign.hollowknight.model;
 
     import com.badlogic.gdx.physics.box2d.*;
+    import com.graphicdesign.hollowknight.model.enemy.Enemy;
     import com.graphicdesign.hollowknight.model.enemy.GroundEnemy;
     import com.graphicdesign.hollowknight.view.PlayScreen;
 
@@ -58,6 +59,24 @@
                 boolean knockRight = knightFix.getBody().getPosition().x > enemyFix.getBody().getPosition().x;
 
                 screen.getKnight().takeDamage(1, knockRight);
+            }
+
+            switch (collision) {
+                case Constants.PROJECTILE_BIT | Constants.GROUND_BIT:
+                {
+                    Fixture projectileFix = fix1.getUserData() instanceof VengefulSpirit ? fix1 : fix2;
+                    ((VengefulSpirit) projectileFix.getUserData()).onHitWall();
+                    break;
+                }
+                case Constants.PROJECTILE_BIT | Constants.ENEMY_BIT:
+                {
+                    Fixture projectileFix = fix1.getUserData() instanceof VengefulSpirit ? fix1 : fix2;
+                    Fixture enemyFix = projectileFix == fix1 ? fix2 : fix1;
+                    VengefulSpirit spirit = (VengefulSpirit) projectileFix.getUserData();
+                    Enemy enemy = (Enemy) enemyFix.getUserData();
+                    spirit.onHitEnemy(enemy);
+                    break;
+                }
             }
 
         }

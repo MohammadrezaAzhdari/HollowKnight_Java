@@ -34,6 +34,7 @@ public class PlayScreen extends AbstractScreen {
     private Hud hud;
     private PlayScreenController controller;
     private List<Enemy> enemies;
+    private List<VengefulSpirit> projectiles;
 
     // Loading map :
     private TmxMapLoader mapLoader;
@@ -92,7 +93,7 @@ public class PlayScreen extends AbstractScreen {
             currentGameSlot = savedData.getSlotId();
         }
 
-        knight = new Knight(world, spawn);
+        knight = new Knight(this, spawn);
 
         if(!isNewGame) {
             knight.soulAmount = savedData.getSoulAmount();
@@ -114,6 +115,9 @@ public class PlayScreen extends AbstractScreen {
 
 
         gamePort.setUnitsPerPixel(1 / Constants.PPM);
+
+        projectiles = new ArrayList<>();
+
 
     }
 
@@ -155,6 +159,13 @@ public class PlayScreen extends AbstractScreen {
         renderer.setView(camera);
         knight.update(deltaTime);
 
+        for (VengefulSpirit projectile : projectiles) {
+            projectile.update(deltaTime);
+            if(projectile.removeProjectile()) {
+                projectile.destroyBody();
+            }
+        }
+
         for (Enemy enemy : enemies) {
             enemy.update(deltaTime);
         }
@@ -179,7 +190,7 @@ public class PlayScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
-        b2dr.render(world, camera.combined);
+        //b2dr.render(world, camera.combined);
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
@@ -187,6 +198,9 @@ public class PlayScreen extends AbstractScreen {
         knight.draw(game.batch);
         for(Enemy enemy : enemies) {
             enemy.draw(game.batch);
+        }
+        for(VengefulSpirit projectile : projectiles) {
+            projectile.draw(game.batch);
         }
         zote.draw(game.batch);
 
@@ -288,4 +302,9 @@ public class PlayScreen extends AbstractScreen {
     public Zote getZote() {
         return zote;
     }
+
+    public void addProjectile(VengefulSpirit projectile) {
+        projectiles.add(projectile);
+    }
+
 }

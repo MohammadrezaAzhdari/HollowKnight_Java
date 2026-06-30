@@ -59,7 +59,7 @@ public class MainScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        // Add an animation to menu
+        // Add an currentAnimation to menu
 
         ScreenUtils.clear(0.05f, 0.07f, 0.1f, 1f);
         HollowKnight.getGame().batch.setProjectionMatrix(stage.getCamera().combined);
@@ -67,7 +67,7 @@ public class MainScreen extends AbstractScreen {
         float width = stage.getViewport().getWorldWidth();
         float height = stage.getViewport().getWorldHeight();
         HollowKnight.getGame().batch.draw(backGround, 0, 0, width, height);
-        // TODO -> Add animation here
+        // TODO -> Add currentAnimation here
         HollowKnight.getGame().batch.end();
 
         super.render(delta);

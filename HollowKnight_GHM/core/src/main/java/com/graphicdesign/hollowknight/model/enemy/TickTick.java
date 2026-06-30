@@ -50,7 +50,8 @@ public class TickTick extends GroundEnemy{
             Constants.DESTROYABLE_BIT |
                 Constants.KNIGHT_BIT |
                 Constants.GROUND_BIT |
-                Constants.CLIFF_BIT;
+                Constants.CLIFF_BIT  |
+                Constants.PROJECTILE_BIT;
 
         b2body.createFixture(fdef).setUserData(this);
         shape.dispose();
@@ -102,4 +103,5 @@ public class TickTick extends GroundEnemy{
         Animation<TextureRegion> anim = AssetManagerLocal.getInstance().animationMap.get(currentAnimation);
         return anim.isAnimationFinished(stateTime);
     }
+
 }

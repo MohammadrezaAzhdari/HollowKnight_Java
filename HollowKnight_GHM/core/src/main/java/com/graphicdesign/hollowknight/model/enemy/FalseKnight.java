@@ -1,8 +1,6 @@
 package com.graphicdesign.hollowknight.model.enemy;
 
 import com.badlogic.gdx.ai.btree.BehaviorTree;
-import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
-import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,11 +14,12 @@ import com.graphicdesign.hollowknight.model.enums.animation.FalseKnightAnimation
 public class FalseKnight extends GroundEnemy{
     private Knight knight;
     public float stateTime;
-    private FalseKnightAnimation currentAnimation;
+    public FalseKnightAnimation currentAnimation;
     private BehaviorTree<FalseKnight> behaviorTree;
     public String lastMoveName = "";
     private float deltaTime = 0f;
-    public Fixture hammerSensor;
+    public Fixture hammerSensorRight;
+    public Fixture hammerSensorLeft;
     public boolean tookHeavyDamage = false;
 
     public FalseKnight(World world, float x, float y, Knight knight) {
@@ -48,25 +47,31 @@ public class FalseKnight extends GroundEnemy{
         shape.setAsBox(width, height);
 
         fdef.filter.categoryBits = Constants.ENEMY_BIT;
-        fdef.filter.maskBits = Constants.GROUND_BIT | Constants.KNIGHT_BIT | Constants.CLIFF_BIT | Constants.DESTROYABLE_BIT;
+        fdef.filter.maskBits = Constants.GROUND_BIT |
+            Constants.KNIGHT_BIT |
+            Constants.CLIFF_BIT |
+            Constants.DESTROYABLE_BIT |
+            Constants.PROJECTILE_BIT;
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
 
         FixtureDef sensorDef = new FixtureDef();
         PolygonShape attackShape = new PolygonShape();
+        sensorDef.filter.categoryBits = 0;
+        sensorDef.filter.maskBits = Constants.KNIGHT_BIT;
+        sensorDef.isSensor = true;
 
         attackShape.setAsBox(2f, 1f, new Vector2(4.2f, 0.2f), 0);
         sensorDef.shape = attackShape;
-        sensorDef.isSensor = true;
-        sensorDef.filter.categoryBits = Constants.ENEMY_BIT;
-        sensorDef.filter.maskBits = Constants.KNIGHT_BIT;
-        hammerSensor = b2body.createFixture(sensorDef);
-        hammerSensor.setUserData("Hammer");
+        hammerSensorRight = b2body.createFixture(sensorDef);
+        hammerSensorRight.setUserData("Hammer");
 
-        // Disabling sensor initially :
+        attackShape.setAsBox(2f, 1f, new Vector2(-4.2f, 0.2f), 0);
+        sensorDef.shape = attackShape;
+        hammerSensorLeft = b2body.createFixture(sensorDef);
+        hammerSensorLeft.setUserData("Hammer");
 
-        hammerSensor.getFilterData().categoryBits = 0;
-        hammerSensor.setFilterData(hammerSensor.getFilterData());
+        attackShape.dispose();
     }
 
     @Override
@@ -91,7 +96,7 @@ public class FalseKnight extends GroundEnemy{
 
     @Override
     public void draw(SpriteBatch batch) {
-        if(true) return;
+        //if(true) return;
         Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(currentAnimation);
         TextureRegion region = animation.getKeyFrame(stateTime);
 
@@ -126,11 +131,6 @@ public class FalseKnight extends GroundEnemy{
         return knight;
     }
 
-    public boolean isAnimationFinished() {
-        Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(currentAnimation);
-
-        return animation.isAnimationFinished(stateTime);
-    }
 
     public void faceToPlayer() {
         walkRight = knight.b2body.getPosition().x > b2body.getPosition().x;

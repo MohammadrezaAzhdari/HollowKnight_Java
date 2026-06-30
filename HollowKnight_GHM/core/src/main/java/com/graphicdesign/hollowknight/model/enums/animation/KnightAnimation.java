@@ -16,10 +16,14 @@ public enum KnightAnimation implements AnimationData {
     FOCUS("animations/knight/Focus.png", 4, 4, 1, PlayMode.LOOP),
     FOCUS_GET("animations/knight/Focus Get.png", 6, 6, 1, PlayMode.NORMAL),
     FOCUS_END("animations/knight/Focus End.png", 3, 3, 1, PlayMode.NORMAL),
+    VENGEFUL_SPIRIT_CAST("animations/knight/Fireball Cast.png", 9, 9, 1, PlayMode.NORMAL),
 
     // Effects :
     SLASH_EFFECT("animations/effects/SlashEffectAlt.png", 6,6,1,PlayMode.NORMAL),
     DASH_EFFECT("animations/effects/Dash Effect.png",8, 8, 1, PlayMode.NORMAL),
+    VENGEFUL_SPIRIT_END("animations/effects/BlastSoul.png", 8, 8, 1, PlayMode.NORMAL),
+    VENGEFUL_SPIRIT("animations/effects/SoulBall2.png", 3, 4, 1, PlayMode.LOOP),
+    VENGEFUL_SPIRIT_START("animations/effects/SoulBall.png", 4, 4, 1, PlayMode.NORMAL),
 
     ;
     public final String path;

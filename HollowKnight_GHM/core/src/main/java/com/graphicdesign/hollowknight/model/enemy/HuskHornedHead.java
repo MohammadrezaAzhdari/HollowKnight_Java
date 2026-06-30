@@ -50,7 +50,8 @@ public class HuskHornedHead extends GroundEnemy{
         fdef.filter.maskBits = Constants.GROUND_BIT |
             Constants.KNIGHT_BIT |
             Constants.CLIFF_BIT |
-            Constants.DESTROYABLE_BIT;
+            Constants.DESTROYABLE_BIT |
+            Constants.PROJECTILE_BIT;
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
 

@@ -9,6 +9,8 @@ import com.badlogic.gdx.ai.btree.branch.Sequence;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.graphicdesign.hollowknight.model.AssetManagerLocal;
 import com.graphicdesign.hollowknight.model.Constants;
 import com.graphicdesign.hollowknight.model.enums.animation.FalseKnightAnimation;
 
@@ -101,7 +103,7 @@ public class FalseKnightAI {
 
 
 
-    // Inner leaf tasks for tree sections (for example -> playing animation , checking distance , etc) :
+    // Inner leaf tasks for tree sections (for example -> playing currentAnimation , checking distance , etc) :
 
     public static class CheckDistance extends LeafTask<FalseKnight> {
         private float minDist;
@@ -143,7 +145,7 @@ public class FalseKnightAI {
         public Status execute() {
             if(animation.getPlayMode() == Animation.PlayMode.LOOP) return Status.SUCCEEDED;
 
-            if(getObject().isAnimationFinished()) return Status.SUCCEEDED;
+            if(AssetManagerLocal.isAnimationFinished(getObject().currentAnimation, getObject().stateTime)) return Status.SUCCEEDED;
             return Status.RUNNING;
         }
 
@@ -284,9 +286,19 @@ public class FalseKnightAI {
 
         @Override
         public Status execute() {
-            Filter filter = getObject().hammerSensor.getFilterData();
+            FalseKnight boss = getObject();
+
+            Fixture activeSensor = boss.walkRight ? boss.hammerSensorRight : boss.hammerSensorLeft;
+            Fixture inactiveSensor = boss.walkRight ? boss.hammerSensorLeft : boss.hammerSensorRight;
+
+            Filter filter = activeSensor.getFilterData();
             filter.categoryBits = enable ? Constants.ENEMY_BIT : 0;
-            getObject().hammerSensor.setFilterData(filter);
+            activeSensor.setFilterData(filter);
+
+            Filter inactiveFilter = inactiveSensor.getFilterData();
+            inactiveFilter.categoryBits = 0;
+            inactiveSensor.setFilterData(inactiveFilter);
+
             return Status.SUCCEEDED;
         }
 

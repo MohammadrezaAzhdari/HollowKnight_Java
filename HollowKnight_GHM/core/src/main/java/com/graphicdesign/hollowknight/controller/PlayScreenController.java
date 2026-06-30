@@ -69,6 +69,11 @@ public class PlayScreenController extends InputAdapter {
                 }
                 break;
             }
+            case Input.Keys.R :
+            {
+                knight.castVengefulSpirit();
+                break;
+            }
             case Input.Keys.X:
                 knight.attack();
                 return true;
@@ -148,7 +153,7 @@ public class PlayScreenController extends InputAdapter {
             knight.b2body.applyLinearImpulse(new Vector2(Constants.RUN, 0), knight.b2body.getWorldCenter(), true);
         }
         if (velocity.x == 0 && velocity.y == 0) {
-            knight.animation = KnightAnimation.IDLE;
+            knight.currentAnimation = KnightAnimation.IDLE;
         }
     }
     public void resetMovement() {

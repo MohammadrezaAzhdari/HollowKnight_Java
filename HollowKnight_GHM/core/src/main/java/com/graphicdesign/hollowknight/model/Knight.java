@@ -15,9 +15,10 @@
     import java.util.List;
 
     public class Knight {
+        private PlayScreen screen;
         private World world;
         public Body b2body;
-        public KnightAnimation animation = KnightAnimation.LANDING;
+        public KnightAnimation currentAnimation = KnightAnimation.LANDING;
         public float stateTime = 0f;
         private boolean runningRight = true;
         private boolean isAttacking = false;
@@ -43,11 +44,16 @@
         private float attackCooldownTimer = 0f;
         public boolean isSpectator = false;
         public boolean isInGodMode = false;
+        public boolean isDead = false;
+        private Vector2 spawnPoint;
+        private boolean isCastingSpell = false;
 
 
 
-        public Knight (World world, Vector2 spawn) {
-            this.world = world;
+        public Knight (PlayScreen screen , Vector2 spawn) {
+            this.screen = screen;
+            this.world = screen.getWorld();
+            spawnPoint = new Vector2(spawn);
             defineKnight(spawn);
         }
 
@@ -102,7 +108,7 @@
 
             if (isInvincible && (stateTime * 5) % 2 < 1) {return;}
 
-            Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(this.animation);
+            Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(this.currentAnimation);
             TextureRegion keyFrame = animation.getKeyFrame(this.stateTime);
 
             correctKnightDirection(keyFrame);
@@ -192,6 +198,20 @@
                 }
             }
 
+            if(isCastingSpell) {
+                Animation<TextureRegion> animation = AssetManagerLocal.getInstance().animationMap.get(currentAnimation);
+
+                if(animation.getKeyFrameIndex(stateTime) >= 5) {
+                    float spawnX = b2body.getPosition().x + (runningRight ? 0.5f : -0.5f);
+                    float spawnY = b2body.getPosition().y + 0.2f;
+
+                    screen.addProjectile(new VengefulSpirit(screen, spawnX, spawnY, runningRight));
+                }
+                if(AssetManagerLocal.isAnimationFinished(currentAnimation, stateTime)) {
+                    isCastingSpell = false;
+                }
+            }
+
             if(isInvincible) {
                 invincibleTimer -= deltaTime;
                 if(invincibleTimer <= 0) {
@@ -236,87 +256,53 @@
 
 
             switch (currentState) {
-                case IDLE :
-                {
-                    animation = KnightAnimation.IDLE;
-                    break;
-                }
-                case FALLING:
-                {
-                    animation = KnightAnimation.FALL;
-                    break;
-                }
-                case RUNNING:
-                {
-                    animation = KnightAnimation.RUN;
-                    break;
-                }
-                case RUN_TO_IDLE:
-                {
-                    animation = KnightAnimation.RUN_TO_IDLE;
-                    break;
-                }
-                case LANDING:
-                {
-                    animation = KnightAnimation.LANDING;
-                    break;
-                }
-                case JUMPING:
-                {
-                    animation = KnightAnimation.DOUBLE_JUMP;
-                    break;
-                }
-                case DOUBLE_JUMPING:
-                {
-                    animation = KnightAnimation.DOUBLE_JUMP;
-                    break;
-                }
-                case ATTACKING:
-                {
-                    animation = KnightAnimation.SLASH;
-                    break;
-                }
-                case DASHING:
-                {
-                    animation = KnightAnimation.DASH;
-                    break;
-                }
-                case SLIDING:
-                {
-                    animation = KnightAnimation.WALL_SLIDE;
-                    break;
-                }
-                case FOCUS_START:
-                {
-                    animation = KnightAnimation.FOCUS_START;
-                    break;
-                }
-                case FOCUS:
-                {
-                    animation = KnightAnimation.FOCUS;
-                    break;
-                }
-                case FOCUS_GET:
-                {
-                    animation = KnightAnimation.FOCUS_GET;
-                    break;
-                }
-                case FOCUS_END:
-                {
-                    animation = KnightAnimation.FOCUS_END;
-                    break;
-                }
+                case IDLE : {
+                    currentAnimation = KnightAnimation.IDLE;break;}
+                case FALLING: {
+                    currentAnimation = KnightAnimation.FALL;break;}
+                case RUNNING: {
+                    currentAnimation = KnightAnimation.RUN;break;}
+                case RUN_TO_IDLE: {
+                    currentAnimation = KnightAnimation.RUN_TO_IDLE;break;}
+                case LANDING: {
+                    currentAnimation = KnightAnimation.LANDING;break;}
+                case JUMPING: {
+                    currentAnimation = KnightAnimation.DOUBLE_JUMP;break;}
+                case DOUBLE_JUMPING: {
+                    currentAnimation = KnightAnimation.DOUBLE_JUMP;break;}
+                case ATTACKING: {
+                    currentAnimation = KnightAnimation.SLASH;break;}
+                case DASHING: {
+                    currentAnimation = KnightAnimation.DASH;break;}
+                case SLIDING: {
+                    currentAnimation = KnightAnimation.WALL_SLIDE;break;}
+                case FOCUS_START: {
+                    currentAnimation = KnightAnimation.FOCUS_START;break;}
+                case FOCUS: {
+                    currentAnimation = KnightAnimation.FOCUS;break;}
+                case FOCUS_GET: {
+                    currentAnimation = KnightAnimation.FOCUS_GET;break;}
+                case FOCUS_END: {
+                    currentAnimation = KnightAnimation.FOCUS_END;break;}
+                case DEATH: {
+                    currentAnimation = KnightAnimation.DEATH;break;}
+                case CASTING: {
+                    currentAnimation = KnightAnimation.VENGEFUL_SPIRIT_CAST;break;}
+            }
+            if(isDead && AssetManagerLocal.isAnimationFinished(currentAnimation, stateTime)) {
+                respawn();
             }
             previousState = currentState;
         }
 
         private KnightState getState() {
-
+            if(isDead) return KnightState.DEATH;
+            if(isCastingSpell) return KnightState.CASTING;
             if(isDashing) return KnightState.DASHING;
             if(isAttacking) return KnightState.ATTACKING;
             if(isSliding) return  KnightState.SLIDING;
 
-            Animation<TextureRegion> currentAnimation = AssetManagerLocal.getInstance().animationMap.get(animation);
+            Animation<TextureRegion> currentAnimation = AssetManagerLocal.getInstance().animationMap.get(this.currentAnimation);
 
             if(isFocusEnding) {
                 if(!currentAnimation.isAnimationFinished(stateTime) && currentState == KnightState.FOCUS_END) {
@@ -443,7 +429,9 @@
 
 
             if(health <= 0) {
-                // TODO -> handle dying and respawning
+                isDead = true;
+                b2body.setLinearVelocity(0,0);
+                isInvincible = true;
             }
             else {
                 isInvincible = true;
@@ -480,6 +468,27 @@
             }
         }
 
+
+        private void respawn() {
+            isDead = false;
+            health = Constants.KNIGHT_HEALTH_COUNT;
+            soulAmount = Constants.MAX_SOUL;
+            charms.clear();
+
+            b2body.setTransform(spawnPoint, 0);
+            b2body.setLinearVelocity(0,0);
+
+            isInvincible = false;
+            isAttacking = false;
+            isDashing = false;
+            isDead = false;
+            isFocusing = false;
+
+            currentState = KnightState.IDLE;
+            previousState = KnightState.IDLE;
+            stateTime = 0f;
+        }
+
         // >>>>>> Cheat codes :
 
         public void refillSoul() {
@@ -511,5 +520,15 @@
             }
         }
         public void toggleGodMode() {isInGodMode = !isInGodMode;}
+
+        public void castVengefulSpirit() {
+            if (!isAttacking && !isCastingSpell && soulAmount >= Constants.SPIRIT_SOUL_COST) {
+                isCastingSpell = true;
+                stateTime = 0;
+                b2body.setLinearVelocity(0, 0);
+                soulAmount -= Constants.SPIRIT_SOUL_COST;
+            }
+
+        }
 
     }

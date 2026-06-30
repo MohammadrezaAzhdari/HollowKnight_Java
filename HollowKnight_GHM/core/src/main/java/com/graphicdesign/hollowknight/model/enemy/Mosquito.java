@@ -51,7 +51,10 @@ public class Mosquito extends FlyingEnemy{
         shape.setAsBox(width, height);
 
         fdef.filter.categoryBits = Constants.ENEMY_BIT;
-        fdef.filter.maskBits = Constants.GROUND_BIT | Constants.KNIGHT_BIT | Constants.DESTROYABLE_BIT;
+        fdef.filter.maskBits = Constants.GROUND_BIT |
+            Constants.KNIGHT_BIT |
+            Constants.DESTROYABLE_BIT |
+            Constants.PROJECTILE_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);

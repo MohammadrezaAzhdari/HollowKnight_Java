@@ -26,6 +26,12 @@ public class Constants {
     public static final int SOUL_PER_HEAL = 33;
     public static final float KNIGHT_FOCUS_TIME = 1.5f;
 
+    // Vengeful spirit :
+    public static final float SPIRIT_SPEED = 5f;
+    public static final int SPIRIT_DAMAGE = 100;
+    public static final int SPIRIT_SOUL_COST = 33;
+    public static final int SPIRIT_WIDTH = 50;
+    public static final int SPIRIT_HEIGHT = 30;
     // world logic and physic :
     public static final float TIME_SPEED = 1/60f;
     public static final int COLLISION_VELOCITY_CALCULATION_SPEED = 6;
@@ -46,6 +52,7 @@ public class Constants {
     public static final short NPC_BIT = 16;
     public static final short CLIFF_BIT = 32;
     public static final short CORPSE_BIT = 64;
+    public static final short PROJECTILE_BIT = 128;
 
     // camera :
     public static final float CAMERA_DELAY = 5f; // lower = more delay.
